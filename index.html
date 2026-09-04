@@ -92,34 +92,61 @@
         }
 
         /* Card Container Frame */
-        .card-wrapper {
-            background-color: #E3D9CC;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
+        ./* Tablecloth Background Frame */
+.card-wrapper {
+    background-color: #D3C5B2;
+    /* Soft lighting gradient combined with woven linen noise pattern */
+    background-image: 
+        radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.35) 0%, rgba(0, 0, 0, 0.12) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23linen)' opacity='0.15'/%3E%3C/svg%3E");
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Realistic Drop Shadow on the Card */
+.invitation-card {
+    /* (Keep your existing width, height, and border-radius styles) */
+    
+}
 
         /* Arched Invitation Card */
         ./* Arched Invitation Card with Paper Texture */
+./* Compact Card Sized for Mobile & WhatsApp Sharing */
 .invitation-card {
-    width: 440px;
-    min-height: 680px;
+    width: 360px; /* Scaled down width */
+    min-height: 560px;
     background-color: var(--card-bg);
-    /* Subtle paper noise texture */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
-    border-top-left-radius: 220px;
-    border-top-right-radius: 220px;
-    padding: 30px 35px 40px 35px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    border-top-left-radius: 180px; /* Perfectly half of 360px */
+    border-top-right-radius: 180px;
+    padding: 24px 28px 30px 28px;
+    box-shadow: 0 16px 38px rgba(60, 45, 30, 0.22), 0 4px 10px rgba(0, 0, 0, 0.08) !important
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     position: relative;
 }
+
+/* Centered Photo Frame Inside the Arch */
+.photo-frame {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    border: 2.5px solid var(--accent-gold);
+    overflow: hidden;
+    margin-top: -55px; /* Pulls photo up into the arch center */
+    margin-bottom: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    position: relative;
+    background-color: #f0e6d8;
+}
+
 
 /* SVG Arch Text */
 .arch-text-container {
@@ -138,7 +165,7 @@
         }
 
         /* Couple Photo Circle */
-        .photo-frame {
+      /*  .photo-frame {
             width: 130px;
             height: 130px;
             border-radius: 50%;
@@ -150,7 +177,7 @@
             position: relative;
             background-color: #f0e6d8;
         }
-
+*/
         .photo-frame img {
             width: 100%;
             height: 100%;
@@ -468,7 +495,9 @@
 
         // Download High Resolution PNG using html2canvas
         async function downloadInvitation() {
-            const card = document.getElementById('invitationCard');
+            // Target the wrapper so the tablecloth background is included in the downloaded image
+        const card = document.querySelector('.card-wrapper');
+
             const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
             const safeFileName = rawName ? rawName.replace(/[^a-z0-9]/gi, '_') : 'Guest';
 
@@ -480,10 +509,11 @@
 
             try {
                 const canvas = await html2canvas(card, {
-                    scale: 3, // High-DPI resolution
-                    useCORS: true,
-                    backgroundColor: '#EAE0D0'
-                });
+    scale: 2, // Ideal resolution for fast WhatsApp loading
+    useCORS: true,
+    backgroundColor: '#EAE0D0'
+});
+
 
                 const link = document.createElement('a');
                 link.download = `Wedding_Invitation_${safeFileName}.png`;
