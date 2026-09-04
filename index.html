@@ -7,13 +7,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --bg-color: #EFE8DE;
-            --card-bg: #FAF6F0;
-            --text-color: #4A3E3D;
-            --accent-gold: #B89355;
-            --accent-light: #C4A572;
-            --border-color: #D3C4B1;
-        }
+    --bg-color: #DCD2C3;       /* Warm background behind the card */
+    --card-bg: #EAE0D0;         /* Warm, linen-beige color for the invitation card */
+    --text-color: #3D3331;     /* Slightly darker text for crisp contrast on warm beige */
+    --accent-gold: #9E7D47;   /* Deeper vintage gold accent */
+    --border-color: #C8B8A5;
+}
+
 
         * {
             box-sizing: border-box;
@@ -120,10 +120,11 @@
 
         /* SVG Arch Text */
         .arch-text-container {
-            width: 100%;
-            height: 80px;
-            margin-top: 5px;
-        }
+    width: 100%;
+    height: 80px;
+    margin-top: 25px;
+}
+
 
         .arch-text-svg {
             width: 100%;
@@ -352,7 +353,8 @@
             
             <div class="arch-text-container">
                 <svg viewBox="0 0 400 90" class="arch-text-svg">
-                    <path id="curvePath" d="M 30 80 A 170 170 0 0 1 370 80" fill="transparent" />
+                    <path id="curvePath" d="M 30 80 A 170 65 0 0 1 370 80" fill="transparent" />
+
                     <text fill="#B89355" font-family="Georgia, serif" font-size="15" font-weight="600" letter-spacing="1.2">
                         <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
                             Love, Truth &amp; Honour We Will Carry Forever
@@ -475,7 +477,7 @@
                 const canvas = await html2canvas(card, {
                     scale: 3, // High-DPI resolution
                     useCORS: true,
-                    backgroundColor: '#EFE8DE'
+                    backgroundColor: '#EAE0D0'
                 });
 
                 const link = document.createElement('a');
