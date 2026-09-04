@@ -90,23 +90,26 @@
             background-color: rgba(0,0,0,0.03);
         }
 
-        /* Table Surface Background Frame */
+        /* Expanded Table Surface Background Frame */
         .card-wrapper {
             width: 100%;
-            max-width: 520px;
-            height: 680px;
+            max-width: 600px;
+            height: 800px; /* Increased height to show more background */
             background-image: url("https://raw.githubusercontent.com/Sandeep-Anu/WeddingInvite/main/warm-natural-wooden-surface-with-soft-lighting-and-a-blurred-wall-creating-a-cozy-and-organic-setting-for-product-presentation-photo.jpg");
             background-size: cover;
-            background-position: center;
+            background-position: center bottom;
             border-radius: 16px;
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
             display: flex;
             justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 30px;
+            align-items: flex-end; /* Align to the bottom... */
+            padding-bottom: 120px; /* ...but push it up to show table in front */
             margin-bottom: 30px;
             position: relative;
             overflow: hidden;
+            /* Enhance background realism slightly */
+            background-color: #c4b6a6;
+            background-blend-mode: multiply;
         }
 
         /* Standing Invitation Card Mockup */
@@ -118,10 +121,15 @@
             border-top-left-radius: 160px;
             border-top-right-radius: 160px;
             padding: 22px 24px 25px 24px;
-            /* Shadow to mimic a realistic standing card on table surface */
+            
+            /* Realistic standing shadow and slight 3D perspective */
             box-shadow: 
-                0 20px 30px rgba(0, 0, 0, 0.25),
-                0 4px 10px rgba(0, 0, 0, 0.12);
+                0 35px 50px -15px rgba(0, 0, 0, 0.45), /* Wide, soft shadow cast behind */
+                0 10px 15px -5px rgba(0, 0, 0, 0.2),  /* Sharp shadow near the base */
+                inset 0 -5px 10px rgba(0, 0, 0, 0.03); /* Grounding shadow on the card itself */
+            transform: perspective(1000px) rotateX(2deg); /* Subtle lean backward */
+            transform-origin: bottom center;
+            
             display: flex;
             flex-direction: column;
             align-items: center;
