@@ -1,0 +1,505 @@
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation Card Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #EFE8DE;
+            --card-bg: #FAF6F0;
+            --text-color: #4A3E3D;
+            --accent-gold: #B89355;
+            --accent-light: #C4A572;
+            --border-color: #D3C4B1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header / Action Bar */
+        .header-bar {
+            background: #ffffff;
+            width: 100%;
+            max-width: 650px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #9e7a41;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background-color: #f5eedf;
+        }
+
+        /* Card Container Frame */
+        .card-wrapper {
+            background-color: #E3D9CC;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        /* Arched Invitation Card */
+        .invitation-card {
+            width: 440px;
+            min-height: 680px;
+            background-color: var(--card-bg);
+            border-top-left-radius: 220px;
+            border-top-right-radius: 220px;
+            padding: 30px 35px 40px 35px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* SVG Arch Text */
+        .arch-text-container {
+            width: 100%;
+            height: 80px;
+            margin-top: 5px;
+        }
+
+        .arch-text-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        /* Couple Photo Circle */
+        .photo-frame {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-gold);
+            overflow: hidden;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+            background-color: #f0e6d8;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Cordially Invited Heading */
+        .invitation-heading {
+            font-size: 1.45rem;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+
+        /* Divider Line */
+        .divider-line {
+            width: 80%;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 8px 0 16px 0;
+        }
+
+        /* Guest Name Display */
+        .guest-greeting {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        /* Main Invitation Text */
+        .invitation-text {
+            font-size: 0.95rem;
+            line-height: 1.45;
+            color: #5A4E4D;
+            margin-bottom: 18px;
+        }
+
+        /* Section Headings */
+        .section-title {
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        /* Details List */
+        .details-list {
+            list-style: none;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 18px;
+        }
+
+        .details-list li {
+            margin-bottom: 3px;
+        }
+
+        /* Dress Code Section */
+        .dress-code-box {
+            margin-bottom: 18px;
+        }
+
+        .dress-code-title {
+            font-size: 0.82rem;
+            letter-spacing: 1.2px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .dress-code-desc {
+            font-size: 0.78rem;
+            color: #6B5E5D;
+            line-height: 1.4;
+            max-width: 340px;
+        }
+
+        /* RSVP Section */
+        .rsvp-box {
+            font-size: 0.78rem;
+            color: #6B5E5D;
+            line-height: 1.4;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 12px;
+            width: 100%;
+        }
+
+        /* MODAL DIALOG STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 90%;
+            max-width: 440px;
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 15px;
+
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #6B5E5D;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Hidden File Input */
+        #photoFileInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <div class="header-title">Wedding Invitation Generator</div>
+        <div class="btn-group">
+            <button class="btn btn-outline" onclick="openModal()">
+                ✏️ Edit Invitee Name
+            </button>
+            <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
+                📷 Change Photo
+            </button>
+            <button class="btn" onclick="downloadInvitation()">
+                📥 Download PNG
+            </button>
+        </div>
+    </div>
+
+    <input type="file" id="photoFileInput" accept="image/*" onchange="loadNewPhoto(event)">
+
+    <div class="card-wrapper">
+        <div class="invitation-card" id="invitationCard">
+            
+            <div class="arch-text-container">
+                <svg viewBox="0 0 400 90" class="arch-text-svg">
+                    <path id="curvePath" d="M 30 80 A 170 170 0 0 1 370 80" fill="transparent" />
+                    <text fill="#B89355" font-family="Georgia, serif" font-size="15" font-weight="600" letter-spacing="1.2">
+                        <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
+                            Love, Truth &amp; Honour We Will Carry Forever
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
+
+            <div class="photo-frame">
+                <img id="couplePhoto" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" alt="Couple Photo">
+            </div>
+
+            <div class="guest-greeting" id="cardGuestName">Dear [Invitee Name],</div>
+
+            <h2 class="invitation-heading">You are Cordially Invited</h2>
+
+            <div class="divider-line"></div>
+
+            <p class="invitation-text">
+                We both warmly invite you to our<br>
+                <strong>Wedding Registration Ceremony</strong>
+            </p>
+
+            <div class="section-title">OUR DETAILS</div>
+            <ul class="details-list">
+                <li>👰 <strong>Bride:</strong> Ruchira</li>
+                <li>🤵 <strong>Groom:</strong> Chaminda</li>
+                <li>📅 <strong>Date:</strong> Saturday, 12 September 2026</li>
+                <li>⏰ <strong>Time:</strong> 7:00 PM to 11:00 PM</li>
+                <li>📍 <strong>Venue:</strong> Level 19, Kris with a View, Park Regis<br>Kris Kin Hotel, Dubai, UAE</li>
+            </ul>
+
+            <div class="dress-code-box">
+                <div class="dress-code-title">
+                    <span>👗</span> DRESS CODE:
+                </div>
+                <p class="dress-code-desc">
+                    Feel free to wear comfortable and appropriate attire.
+                    If possible, we kindly invite you to join our color theme
+                    by wearing soft, earthy, or light tones.
+                </p>
+            </div>
+
+            <div class="rsvp-box">
+                <strong>RSVP:</strong> Please kindly RSVP as soon as possible to
+                confirm your attendance. We hope to see you there!
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="nameModal">
+        <div class="modal-card">
+            <div class="modal-header">Edit Invitee Name</div>
+            <div class="form-group">
+                <label for="guestNameInput">Invitee / Guest Name(s):</label>
+                <input type="text" id="guestNameInput" class="form-control" placeholder="e.g. Kasun & Family, Uncle Nimal, etc.">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="saveGuestName()">Apply Name</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Open Modal
+        function openModal() {
+            document.getElementById('nameModal').classList.add('active');
+            const currentName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '');
+            if (currentName !== '[Invitee Name]') {
+                document.getElementById('guestNameInput').value = currentName;
+            }
+            document.getElementById('guestNameInput').focus();
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('nameModal').classList.remove('active');
+        }
+
+        // Save Guest Name to Card
+        function saveGuestName() {
+            const inputVal = document.getElementById('guestNameInput').value.trim();
+            const displayElem = document.getElementById('cardGuestName');
+            
+            if (inputVal) {
+                displayElem.innerText = `Dear ${inputVal},`;
+            } else {
+                displayElem.innerText = "Dear [Invitee Name],";
+            }
+            closeModal();
+        }
+
+        // Load Uploaded Photo
+        function loadNewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('couplePhoto').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Download High Resolution PNG using html2canvas
+        async function downloadInvitation() {
+            const card = document.getElementById('invitationCard');
+            const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
+            const safeFileName = rawName ? rawName.replace(/[^a-z0-9]/gi, '_') : 'Guest';
+
+            // Show temporary loading status
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Generating...';
+            btn.disabled = true;
+
+            try {
+                const canvas = await html2canvas(card, {
+                    scale: 3, // High-DPI resolution
+                    useCORS: true,
+                    backgroundColor: '#EFE8DE'
+                });
+
+                const link = document.createElement('a');
+                link.download = `Wedding_Invitation_${safeFileName}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            } catch (err) {
+                alert('Error generating invitation image: ' + err.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Automatically open modal on initial launch for convenience
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(openModal, 600);
+        });
+    </script>
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Successfully generated index.html")
