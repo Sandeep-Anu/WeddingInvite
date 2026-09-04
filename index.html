@@ -7,10 +7,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --bg-color: #DCD2C3;       /* Warm background behind the card */
-            --card-bg: #EAE0D0;        /* Warm, linen-beige color for the card */
-            --text-color: #3D3331;     /* Darker text for contrast */
-            --accent-gold: #9E7D47;    /* Vintage gold accent */
+            --bg-color: #DCD2C3;
+            --card-bg: #EAE0D0;
+            --text-color: #3D3331;
+            --accent-gold: #9E7D47;
             --border-color: #C8B8A5;
         }
 
@@ -93,7 +93,6 @@
         /* Tablecloth Background Frame */
         .card-wrapper {
             background-color: #D3C5B2;
-            /* Soft lighting gradient combined with woven linen noise pattern */
             background-image: 
                 radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.35) 0%, rgba(0, 0, 0, 0.12) 100%),
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23linen)' opacity='0.15'/%3E%3C/svg%3E");
@@ -106,12 +105,11 @@
             margin-bottom: 30px;
         }
 
-        /* Compact Card Sized for Mobile & WhatsApp Sharing */
+        /* Compact Card */
         .invitation-card {
             width: 360px;
             min-height: 560px;
             background-color: var(--card-bg);
-            /* Subtle paper noise texture on the card */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
             border-top-left-radius: 180px;
             border-top-right-radius: 180px;
@@ -124,12 +122,12 @@
             position: relative;
         }
 
-        /* SVG Arch Text (Perfect Circle) */
+        /* SVG Arch Text */
         .arch-text-container {
             width: 100%;
-            height: 125px;
-            margin-top: 10px;
-            margin-bottom: -35px;
+            height: 140px;
+            margin-top: -5px;
+            margin-bottom: -45px;
         }
 
         .arch-text-svg {
@@ -138,18 +136,19 @@
             overflow: visible;
         }
 
-        /* Centered Photo Frame Inside the Arch */
+        /* Photo Frame */
         .photo-frame {
             width: 95px;
             height: 95px;
             border-radius: 50%;
             border: 2.5px solid var(--accent-gold);
             overflow: hidden;
-            margin-top: -55px; /* Pulls photo directly into the arch center */
+            margin-top: -55px; 
             margin-bottom: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             position: relative;
             background-color: #f0e6d8;
+            z-index: 2;
         }
 
         .photo-frame img {
@@ -162,9 +161,18 @@
         .invitation-heading {
             font-size: 1.45rem;
             color: var(--text-color);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             font-weight: normal;
             letter-spacing: 0.5px;
+        }
+
+        /* Guest Name Display */
+        .guest-greeting {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
         /* Divider Line */
@@ -172,7 +180,7 @@
             width: 80%;
             height: 1px;
             background-color: var(--border-color);
-            margin: 8px 0 16px 0;
+            margin: 4px 0 16px 0;
         }
 
         /* Main Invitation Text */
@@ -193,7 +201,7 @@
             margin-bottom: 8px;
         }
 
-        /* Details List (Centered to match design) */
+        /* Details List */
         .details-list {
             list-style: none;
             font-size: 0.88rem;
@@ -241,6 +249,85 @@
             width: 100%;
         }
 
+        /* MODAL DIALOG STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 90%;
+            max-width: 440px;
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #6B5E5D;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
         /* Hidden File Input */
         #photoFileInput {
             display: none;
@@ -252,6 +339,9 @@
     <div class="header-bar">
         <div class="header-title">Wedding Invitation Generator</div>
         <div class="btn-group">
+            <button class="btn btn-outline" onclick="openModal()">
+                ✏️ Edit Invitee Name
+            </button>
             <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
                 📷 Change Photo
             </button>
@@ -263,13 +353,13 @@
 
     <input type="file" id="photoFileInput" accept="image/*" onchange="loadNewPhoto(event)">
 
-    <!-- The wrapper contains the tablecloth background -->
     <div class="card-wrapper" id="captureArea">
         <div class="invitation-card" id="invitationCard">
             
+            <!-- SVG updated with a taller viewBox and shifted path to prevent text cutoff -->
             <div class="arch-text-container">
-                <svg viewBox="0 0 400 180" class="arch-text-svg">
-                    <path id="curvePath" d="M 35 170 A 165 165 0 0 1 365 170" fill="transparent" />
+                <svg viewBox="0 0 400 195" class="arch-text-svg">
+                    <path id="curvePath" d="M 35 185 A 165 165 0 0 1 365 185" fill="transparent" />
                     <text fill="#9E7D47" font-family="Georgia, serif" font-size="14.5" font-weight="600" letter-spacing="1.2">
                         <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
                             Love, Truth &amp; Honour We Will Carry Forever
@@ -283,6 +373,9 @@
             </div>
 
             <h2 class="invitation-heading">You are Cordially Invited</h2>
+            
+            <!-- Guest name placed in the newly requested position -->
+            <div class="guest-greeting" id="cardGuestName">Dear [Invitee Name],</div>
 
             <div class="divider-line"></div>
 
@@ -319,7 +412,48 @@
         </div>
     </div>
 
+    <!-- Invitee Name Modal -->
+    <div class="modal-overlay" id="nameModal">
+        <div class="modal-card">
+            <div class="modal-header">Edit Invitee Name</div>
+            <div class="form-group">
+                <label for="guestNameInput">Invitee / Guest Name(s):</label>
+                <input type="text" id="guestNameInput" class="form-control" placeholder="e.g. Kasun & Family, Uncle Nimal, etc.">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="saveGuestName()">Apply Name</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Modal Logic
+        function openModal() {
+            document.getElementById('nameModal').classList.add('active');
+            const currentName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '');
+            if (currentName !== '[Invitee Name]') {
+                document.getElementById('guestNameInput').value = currentName;
+            }
+            document.getElementById('guestNameInput').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('nameModal').classList.remove('active');
+        }
+
+        function saveGuestName() {
+            const inputVal = document.getElementById('guestNameInput').value.trim();
+            const displayElem = document.getElementById('cardGuestName');
+            
+            if (inputVal) {
+                displayElem.innerText = `Dear ${inputVal},`;
+            } else {
+                displayElem.innerText = "Dear [Invitee Name],";
+            }
+            closeModal();
+        }
+
         // Load Uploaded Photo
         function loadNewPhoto(event) {
             const file = event.target.files[0];
@@ -334,10 +468,12 @@
 
         // Download High Resolution PNG using html2canvas
         async function downloadInvitation() {
-            // Target the wrapper to include the warm table shadow and background
             const captureArea = document.getElementById('captureArea');
             
-            // Show temporary loading status
+            // Extract safe filename dynamically from guest name
+            const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
+            const safeFileName = (rawName && rawName !== '[Invitee Name]') ? rawName.replace(/[^a-z0-9]/gi, '_') : 'Guest';
+
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
             btn.innerHTML = '⏳ Generating...';
@@ -345,13 +481,13 @@
 
             try {
                 const canvas = await html2canvas(captureArea, {
-                    scale: 2, // Ideal resolution for quick WhatsApp sharing
+                    scale: 2, 
                     useCORS: true,
-                    backgroundColor: '#DCD2C3' // Matches the body background
+                    backgroundColor: '#DCD2C3'
                 });
 
                 const link = document.createElement('a');
-                link.download = `Wedding_Invitation.png`;
+                link.download = `Wedding_Invitation_${safeFileName}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
             } catch (err) {
