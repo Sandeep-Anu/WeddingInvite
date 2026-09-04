@@ -1,231 +1,17 @@
-
-Conversation with Gemini
-Can you create a program which will allow us to edit the invitees name and reuse this template
-
-Here is a complete Python script using Pillow that recreate this arch wedding invitation layout and allows you to dynamically insert guest names (individually or in batch from a list).
-
-Prerequisites
-Install Pillow if you haven't already:
-
-Bash
-pip install pillow
-Python Program (generate_invitations.py)
-Python
-import os
-from PIL import Image, ImageDraw, ImageFont, ImageOps
-
-def create_wedding_invitation(
-    guest_name="Valued Guest",
-    bride_name="Ruchira",
-    groom_name="Chaminda",
-    date_str="Saturday, 12 September 2026",
-    time_str="7:00 PM to 11:00 PM",
-    venue_str="Level 19, Kris with a View, Park Regis\nKris Kin Hotel, Dubai, UAE",
-    photo_path=None,
-    output_filename="invitation.png"
-):
-    # Canvas dimensions
-    width, height = 800, 1100
-    bg_color = (243, 236, 226)       # Soft warm beige background
-    card_color = (252, 249, 244)     # Light off-white arch background
-    text_color = (60, 50, 40)        # Deep earthy warm brown
-    accent_color = (160, 135, 90)    # Soft gold/earthy accent
-
-    # Create base canvas
-    image = Image.new("RGB", (width, height), bg_color)
-    draw = ImageDraw.Draw(image)
-
-    # Draw Arched Card Background
-    card_x1, card_y1, card_x2, card_y2 = 100, 150, 700, 1050
-    arch_radius = (card_x2 - card_x1) // 2
-
-    # Top arc
-    draw.ellipse([card_x1, card_y1, card_x2, card_y1 + 2 * arch_radius], fill=card_color)
-    # Bottom rectangle
-    draw.rectangle([card_x1, card_y1 + arch_radius, card_x2, card_y2], fill=card_color)
-
-    # Load default serif fonts (falls back to default if custom fonts aren't available)
-    try:
-        font_arch = ImageFont.truetype("georgia.ttf", 22)
-        font_header = ImageFont.truetype("georgia.ttf", 28)
-        font_guest = ImageFont.truetype("georgia.ttf", 32)
-        font_body = ImageFont.truetype("georgia.ttf", 20)
-        font_body_bold = ImageFont.truetype("georgiab.ttf", 20)
-        font_small = ImageFont.truetype("georgia.ttf", 16)
-    except IOError:
-        font_arch = font_header = font_guest = font_body = font_body_bold = font_small = ImageFont.load_default()
-
-    # Draw Couple Photo (Circular)
-    circle_center_x, circle_center_y = width // 2, card_y1 + arch_radius + 10
-    photo_radius = 70
-
-    if photo_path and os.path.exists(photo_path):
-        user_photo = Image.open(photo_path).convert("RGBA")
-        user_photo = ImageOps.fit(user_photo, (photo_radius * 2, photo_radius * 2), Image.Resampling.LANCZOS)
-        
-        # Mask into circle
-        mask = Image.new("L", (photo_radius * 2, photo_radius * 2), 0)
-        mask_draw = ImageDraw.Draw(mask)
-        mask_draw.ellipse((0, 0, photo_radius * 2, photo_radius * 2), fill=255)
-        
-        image.paste(user_photo, (circle_center_x - photo_radius, circle_center_y - photo_radius), mask)
-
-    # Outer golden ring for photo
-    draw.ellipse(
-        [circle_center_x - photo_radius - 3, circle_center_y - photo_radius - 3,
-         circle_center_x + photo_radius + 3, circle_center_y + photo_radius + 3],
-        outline=accent_color, width=3
-    )
-
-    # Top Arch Header
-    arch_text = "Love, Truth & Honour We Will Carry Forever"
-    draw.text((width // 2, card_y1 + 30), arch_text, font=font_arch, fill=accent_color, anchor="ms")
-
-    # Invitee Name Section
-    y_cursor = circle_center_y + photo_radius + 40
-    draw.text((width // 2, y_cursor), f"Dear {guest_name},", font=font_guest, fill=text_color, anchor="ms")
-
-    y_cursor += 35
-    draw.text((width // 2, y_cursor), "You are Cordially Invited", font=font_header, fill=text_color, anchor="ms")
-
-    # Divider line
-    y_cursor += 25
-    draw.line([(width // 2 - 150, y_cursor), (width // 2 + 150, y_cursor)], fill=accent_color, width=2)
-
-    # Main invitation phrase
-    y_cursor += 35
-    draw.text(
-        (width // 2, y_cursor),
-        "We both warmly invite you to our\nWedding Registration Ceremony.",
-        font=font_body, fill=text_color, anchor="ms", align="center"
-    )
-
-    # Details Section
-    y_cursor += 65
-    draw.text((width // 2, y_cursor), "OUR DETAILS", font=font_body_bold, fill=accent_color, anchor="ms")
-
-    y_cursor += 30
-    draw.text((width // 2, y_cursor), f"• Bride: {bride_name}", font=font_body, fill=text_color, anchor="ms")
-    y_cursor += 25
-    draw.text((width // 2, y_cursor), f"• Groom: {groom_name}", font=font_body, fill=text_color, anchor="ms")
-    y_cursor += 25
-    draw.text((width // 2, y_cursor), f"• Date: {date_str}", font=font_body, fill=text_color, anchor="ms")
-    y_cursor += 25
-    draw.text((width // 2, y_cursor), f"• Time: {time_str}", font=font_body, fill=text_color, anchor="ms")
-    
-    y_cursor += 25
-    for line in venue_str.split("\n"):
-        draw.text((width // 2, y_cursor), line, font=font_body, fill=text_color, anchor="ms")
-        y_cursor += 25
-
-    # Dress Code Section
-    y_cursor += 20
-    draw.text((width // 2, y_cursor), "DRESS CODE:", font=font_body_bold, fill=text_color, anchor="ms")
-    
-    y_cursor += 25
-    dress_text = (
-        "Feel free to wear comfortable and appropriate attire.\n"
-        "If possible, we kindly invite you to join our color theme\n"
-        "by wearing soft, earthy, or light tones."
-    )
-    draw.text((width // 2, y_cursor), dress_text, font=font_small, fill=text_color, anchor="ms", align="center")
-
-    # RSVP Section
-    y_cursor += 75
-    rsvp_text = (
-        "RSVP: Please kindly RSVP as soon as possible to\n"
-        "confirm your attendance. We hope to see you there!"
-    )
-    draw.text((width // 2, y_cursor), rsvp_text, font=font_small, fill=text_color, anchor="ms", align="center")
-
-    # Save output
-    image.save(output_filename)
-    print(f"Generated invitation card: {output_filename}")
-
-
-# --- Batch Generation Example ---
-if __name__ == "__main__":
-    guests = ["Kasun & Family", "Nimal Perera", "Amali Fernando", "Dr. Wickramasinghe"]
-    
-    os.makedirs("output_invitations", exist_ok=True)
-    
-    for guest in guests:
-        file_name = f"output_invitations/invitation_{guest.replace(' ', '_')}.png"
-        create_wedding_invitation(
-            guest_name=guest,
-            photo_path=None,  # Replace with "couple.jpg" if you have an image file
-            output_filename=file_name
-        )
-Would you prefer me to adapt this into a web-based HTML/CSS template with a live preview input box, or expand this script to load guest names directly from an Excel/CSV spreadsheet?
-
-Can I use the web based one and create downloadble files. If so create a one. So I would host on github and share to my sister. Include a dialog box so would use it to insert name
-
-Your HTML file is ready
-
-HTML icon
-index
- HTML 
-Features of the Web Generator
-Interactive Dialog Box Modal: Automatically prompts for the invitee's name when opened, or whenever the "✏️ Edit Invitee Name" button is clicked.
-
-Arch Card Design: Recreates the layout from your sample image, featuring the arched card shape, warm beige aesthetic, arched header text, couple photo frame, ceremony details, dress code, and RSVP.
-
-Photo Uploader: Allows uploading a custom picture of the couple via the "📷 Change Photo" button.
-
-High-Resolution PNG Download: Includes a "📥 Download PNG" button that converts the customized card into a high-quality printable image.
-
-How to Host on GitHub Pages (3 Quick Steps)
-Create a GitHub Repository:
-
-Go to GitHub and create a new public repository (e.g., wedding-invitation).
-
-Upload index.html:
-
-Upload the generated index.html file into the main branch of your repository.
-
-Enable GitHub Pages:
-
-Navigate to Settings > Pages in your repository.
-
-Under Build and deployment, set the branch to main and save.
-
-GitHub will generate a live web link (e.g., https://username.github.io/wedding-invitation/) that you can share directly with your sister!
-
-Can you modify the code to include a background like this as in this image
-
-The modified index.html file includes the texture and realistic card backdrop.
-
-HTML icon
-index
- HTML 
-Key Improvements Added
-Woven Linen Texture CSS: Added a warm, woven linen fabric pattern directly in CSS matching the tablecloth texture in your image.
-
-Card Shadow Effect: Added soft realistic drop shadows (box-shadow) under the arch card to make it look like a physical card resting on the surface.
-
-Custom Background Uploader: Added a "🖼️ Background" button in the top action bar so you or your sister can upload any fabric image or photo to use as the backdrop.
-
-Full Stage Export: The "📥 Download PNG" function captures the arched card along with the linen background texture and soft shadows when generating the image.
-
-
-
-
-Gemini is AI and can make mistakes.
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation Card Generator</title>
+    <title>Wedding Invitation Card Generator (Landscape Scene)</title>
     <!-- html2canvas for downloading card as PNG -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --card-bg: #FAF6F0;
-            --text-color: #4A3E3D;
-            --accent-gold: #B89355;
-            --border-color: #D3C4B1;
+            --card-bg: #F8F4EE;
+            --text-color: #3E3534;
+            --accent-gold: #B59052;
+            --border-color: #D6C7B4;
         }
 
         * {
@@ -242,34 +28,24 @@ Gemini is AI and can make mistakes.
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            /* Linen texture background using pure CSS patterns */
-            background-color: #e5dacd;
-            background-image: 
-                radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 0),
-                radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0),
-                linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
-            background-size: 20px 20px, 30px 30px, 4px 4px, 4px 4px;
-            background-position: 0 0, 10px 10px, 0 0, 0 0;
-            background-attachment: fixed;
+            background-color: #DCD3C5;
         }
 
         /* Header / Action Bar */
         .header-bar {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
             width: 100%;
-            max-width: 720px;
+            max-width: 900px;
             padding: 14px 20px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             justify-content: space-between;
             align-items: center;
-            z-index: 10;
         }
 
         .header-title {
@@ -288,7 +64,7 @@ Gemini is AI and can make mistakes.
             background-color: var(--accent-gold);
             color: white;
             border: none;
-            padding: 9px 15px;
+            padding: 9px 16px;
             border-radius: 6px;
             font-size: 0.85rem;
             font-family: inherit;
@@ -301,7 +77,7 @@ Gemini is AI and can make mistakes.
         }
 
         .btn:hover {
-            background-color: #9e7a41;
+            background-color: #9B7A42;
             transform: translateY(-1px);
         }
 
@@ -315,28 +91,30 @@ Gemini is AI and can make mistakes.
             background-color: rgba(245, 238, 223, 0.8);
         }
 
-        /* Canvas Stage / Background Texture Display Wrapper */
+        /* LANDSCAPE STAGE CONTAINER (Whole canvas exported to PNG) */
         .stage-container {
+            width: 900px;
+            height: 640px;
             position: relative;
-            padding: 40px;
-            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
-            /* Default realistic linen texture preview */
-            background-color: #e3d5c5;
-            background-image: 
-                radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 0),
-                linear-gradient(45deg, rgba(160, 135, 90, 0.08) 25%, transparent 25%, transparent 75%, rgba(160, 135, 90, 0.08) 75%),
-                linear-gradient(45deg, rgba(160, 135, 90, 0.08) 25%, transparent 25%, transparent 75%, rgba(160, 135, 90, 0.08) 75%);
-            background-size: 8px 8px, 16px 16px, 16px 16px;
-            background-position: 0 0, 0 0, 8px 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             overflow: hidden;
+            /* Linen fabric background pattern matching photo */
+            background-color: #E6DCCE;
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 0),
+                radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0),
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 16px 16px, 24px 24px, 3px 3px, 3px 3px;
+            background-position: 0 0, 8px 8px, 0 0, 0 0;
+            margin-bottom: 30px;
         }
 
-        /* Custom Background Image Overlay on Stage */
+        /* Custom uploaded background image layer */
         .stage-bg-image {
             position: absolute;
             top: 0;
@@ -348,18 +126,18 @@ Gemini is AI and can make mistakes.
             display: none;
         }
 
-        /* Arched Invitation Card with Realistic Shadow */
+        /* SINGLE VERTICAL ARCHED CARD CENTERED IN LANDSCAPE CANVAS */
         .invitation-card {
-            width: 420px;
-            min-height: 670px;
+            width: 390px;
+            min-height: 580px;
             background-color: var(--card-bg);
-            border-top-left-radius: 210px;
-            border-top-right-radius: 210px;
-            padding: 28px 32px 38px 32px;
+            border-top-left-radius: 195px;
+            border-top-right-radius: 195px;
+            padding: 22px 28px 28px 28px;
             box-shadow: 
-                0 20px 45px rgba(60, 45, 30, 0.22),
-                0 8px 15px rgba(60, 45, 30, 0.12),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+                0 20px 40px rgba(50, 35, 20, 0.22),
+                0 6px 15px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -368,11 +146,11 @@ Gemini is AI and can make mistakes.
             z-index: 2;
         }
 
-        /* SVG Arch Text */
+        /* Curved Text Arch */
         .arch-text-container {
             width: 100%;
-            height: 75px;
-            margin-top: 5px;
+            height: 65px;
+            margin-top: 2px;
         }
 
         .arch-text-svg {
@@ -381,17 +159,16 @@ Gemini is AI and can make mistakes.
             overflow: visible;
         }
 
-        /* Couple Photo Circle */
+        /* Circular Couple Photo */
         .photo-frame {
-            width: 125px;
-            height: 125px;
+            width: 105px;
+            height: 105px;
             border-radius: 50%;
             border: 3px solid var(--accent-gold);
             overflow: hidden;
-            margin-top: -10px;
-            margin-bottom: 18px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-            position: relative;
+            margin-top: -8px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             background-color: #f0e6d8;
         }
 
@@ -401,98 +178,95 @@ Gemini is AI and can make mistakes.
             object-fit: cover;
         }
 
+        /* Invitee Greeting */
+        .guest-greeting {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
         /* Cordially Invited Heading */
         .invitation-heading {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             color: var(--text-color);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: normal;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
         /* Divider Line */
         .divider-line {
-            width: 80%;
+            width: 82%;
             height: 1px;
-            background-color: var(--border-color);
-            margin: 8px 0 16px 0;
+            background-color: var(--accent-gold);
+            margin: 4px 0 12px 0;
+            opacity: 0.7;
         }
 
-        /* Guest Name Display */
-        .guest-greeting {
-            font-size: 1.25rem;
-            font-style: italic;
-            color: var(--accent-gold);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        /* Main Invitation Text */
+        /* Invitation Text */
         .invitation-text {
             font-size: 0.92rem;
-            line-height: 1.45;
-            color: #5A4E4D;
-            margin-bottom: 18px;
+            line-height: 1.4;
+            color: #4A403F;
+            margin-bottom: 14px;
         }
 
-        /* Section Headings */
+        /* Section Titles */
         .section-title {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--accent-gold);
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         /* Details List */
         .details-list {
             list-style: none;
-            font-size: 0.86rem;
-            line-height: 1.6;
+            font-size: 0.83rem;
+            line-height: 1.55;
             color: var(--text-color);
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
         .details-list li {
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
-        /* Dress Code Section */
+        /* Dress Code */
         .dress-code-box {
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
         .dress-code-title {
             font-size: 0.8rem;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             font-weight: bold;
             color: var(--text-color);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
+            margin-bottom: 3px;
         }
 
         .dress-code-desc {
-            font-size: 0.76rem;
-            color: #6B5E5D;
-            line-height: 1.4;
-            max-width: 330px;
+            font-size: 0.74rem;
+            color: #5E5352;
+            line-height: 1.35;
+            max-width: 310px;
         }
 
-        /* RSVP Section */
+        /* RSVP */
         .rsvp-box {
-            font-size: 0.76rem;
-            color: #6B5E5D;
-            line-height: 1.4;
+            font-size: 0.74rem;
+            color: #5E5352;
+            line-height: 1.35;
             border-top: 1px dashed var(--border-color);
-            padding-top: 12px;
+            padding-top: 10px;
             width: 100%;
         }
 
-        /* MODAL DIALOG STYLES */
+        /* MODAL STYLES */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -557,7 +331,6 @@ Gemini is AI and can make mistakes.
             font-size: 1rem;
             font-family: inherit;
             outline: none;
-            transition: border-color 0.2s;
         }
 
         .form-control:focus {
@@ -571,7 +344,6 @@ Gemini is AI and can make mistakes.
             margin-top: 20px;
         }
 
-        /* Hidden File Inputs */
         #photoFileInput, #bgFileInput {
             display: none;
         }
@@ -579,42 +351,41 @@ Gemini is AI and can make mistakes.
 </head>
 <body>
 
-    <!-- Header Action Bar -->
+    <!-- Header Control Bar -->
     <div class="header-bar">
-        <div class="header-title">Wedding Invitation Generator</div>
+        <div class="header-title">Wedding Invitation Generator (Landscape Output)</div>
         <div class="btn-group">
             <button class="btn btn-outline" onclick="openModal()">
                 ✏️ Edit Invitee
             </button>
             <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
-                📷 Photo
+                📷 Couple Photo
             </button>
             <button class="btn btn-outline" onclick="document.getElementById('bgFileInput').click()">
-                🖼️ Background
+                🖼️ Custom Linen BG
             </button>
             <button class="btn" onclick="downloadInvitation()">
-                📥 Download PNG
+                📥 Download Landscape PNG
             </button>
         </div>
     </div>
 
-    <!-- Hidden Inputs for Uploads -->
     <input type="file" id="photoFileInput" accept="image/*" onchange="loadNewPhoto(event)">
     <input type="file" id="bgFileInput" accept="image/*" onchange="loadNewBackground(event)">
 
-    <!-- Canvas Stage Wrapper with Linen Background -->
+    <!-- LANDSCAPE STAGE (Whole Canvas Captured for Image Output) -->
     <div class="stage-container" id="stageContainer">
-        <!-- Optional uploaded background image layer -->
-        <img id="bgImageLayer" class="stage-bg-image" alt="Background Texture">
+        <!-- Optional uploaded custom background -->
+        <img id="bgImageLayer" class="stage-bg-image" alt="Background Surface">
 
-        <!-- Arched Card -->
+        <!-- SINGLE VERTICAL ARCH CARD resting on Linen background -->
         <div class="invitation-card" id="invitationCard">
             
-            <!-- Curved Top Text -->
+            <!-- Curved Top Arch Text -->
             <div class="arch-text-container">
-                <svg viewBox="0 0 400 90" class="arch-text-svg">
-                    <path id="curvePath" d="M 30 80 A 170 170 0 0 1 370 80" fill="transparent" />
-                    <text fill="#B89355" font-family="Georgia, serif" font-size="15" font-weight="600" letter-spacing="1.2">
+                <svg viewBox="0 0 360 70" class="arch-text-svg">
+                    <path id="curvePath" d="M 25 62 A 155 155 0 0 1 335 62" fill="transparent" />
+                    <text fill="#B59052" font-family="Georgia, serif" font-size="13.5" font-weight="600" letter-spacing="1.1">
                         <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
                             Love, Truth &amp; Honour We Will Carry Forever
                         </textPath>
@@ -622,22 +393,22 @@ Gemini is AI and can make mistakes.
                 </svg>
             </div>
 
-            <!-- Couple Photo Frame -->
+            <!-- Couple Photo Circle -->
             <div class="photo-frame">
                 <img id="couplePhoto" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" alt="Couple Photo">
             </div>
 
-            <!-- Invitee Greeting -->
+            <!-- Invitee Greeting (Editable) -->
             <div class="guest-greeting" id="cardGuestName">Dear [Invitee Name],</div>
 
-            <!-- Main Heading -->
+            <!-- Heading -->
             <h2 class="invitation-heading">You are Cordially Invited</h2>
 
             <div class="divider-line"></div>
 
             <p class="invitation-text">
                 We both warmly invite you to our<br>
-                <strong>Wedding Registration Ceremony</strong>
+                <strong>Wedding Registration Ceremony.</strong>
             </p>
 
             <!-- Event Details -->
@@ -652,19 +423,17 @@ Gemini is AI and can make mistakes.
 
             <!-- Dress Code -->
             <div class="dress-code-box">
-                <div class="dress-code-title">
-                    <span>👗</span> DRESS CODE:
-                </div>
+                <div class="dress-code-title">🥼 DRESS CODE:</div>
                 <p class="dress-code-desc">
-                    Feel free to wear comfortable and appropriate attire.
-                    If possible, we kindly invite you to join our color theme
+                    Feel free to wear comfortable and appropriate attire.<br>
+                    If possible, we kindly invite you to join our color theme<br>
                     by wearing soft, earthy, or light tones.
                 </p>
             </div>
 
             <!-- RSVP -->
             <div class="rsvp-box">
-                <strong>RSVP:</strong> Please kindly RSVP as soon as possible to
+                <strong>RSVP:</strong> Please kindly RSVP as soon as possible to<br>
                 confirm your attendance. We hope to see you there!
             </div>
 
@@ -687,7 +456,6 @@ Gemini is AI and can make mistakes.
     </div>
 
     <script>
-        // Open Modal
         function openModal() {
             document.getElementById('nameModal').classList.add('active');
             const currentName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '');
@@ -697,12 +465,10 @@ Gemini is AI and can make mistakes.
             document.getElementById('guestNameInput').focus();
         }
 
-        // Close Modal
         function closeModal() {
             document.getElementById('nameModal').classList.remove('active');
         }
 
-        // Save Guest Name to Card
         function saveGuestName() {
             const inputVal = document.getElementById('guestNameInput').value.trim();
             const displayElem = document.getElementById('cardGuestName');
@@ -715,7 +481,6 @@ Gemini is AI and can make mistakes.
             closeModal();
         }
 
-        // Load Uploaded Photo
         function loadNewPhoto(event) {
             const file = event.target.files[0];
             if (file) {
@@ -727,7 +492,6 @@ Gemini is AI and can make mistakes.
             }
         }
 
-        // Load Custom Background Image (Linen / Table texture)
         function loadNewBackground(event) {
             const file = event.target.files[0];
             if (file) {
@@ -741,7 +505,6 @@ Gemini is AI and can make mistakes.
             }
         }
 
-        // Download PNG (Allows choosing Card Only or Full Card + Linen Background)
         async function downloadInvitation() {
             const stage = document.getElementById('stageContainer');
             const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
@@ -749,35 +512,37 @@ Gemini is AI and can make mistakes.
 
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '⏳ Generating...';
+            btn.innerHTML = '⏳ Generating Landscape Image...';
             btn.disabled = true;
 
             try {
-                // Capture full card setup including linen background & shadow
                 const canvas = await html2canvas(stage, {
-                    scale: 3, // High-DPI quality
+                    scale: 3,
                     useCORS: true,
                     allowTaint: true
                 });
 
                 const link = document.createElement('a');
-                link.download = `Wedding_Invitation_${safeFileName}.png`;
+                link.download = `Wedding_Invitation_Landscape_${safeFileName}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
             } catch (err) {
-                alert('Error generating invitation image: ' + err.message);
+                alert('Error generating image: ' + err.message);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
 
-        // Automatically prompt for invitee name on launch
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(openModal, 600);
         });
     </script>
 </body>
 </html>
-index.html
-Displaying index.html.
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Updated landscape image output index.html successfully created.")
