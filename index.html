@@ -57,6 +57,24 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* New input field for Invitee Name */
+        .name-input {
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background-color: #fdfaf7;
+            color: var(--text-color);
+            width: 180px;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
         }
 
         .btn {
@@ -94,7 +112,7 @@
         .card-wrapper {
             width: 100%;
             max-width: 600px;
-            height: 800px; /* Increased height to show more background */
+            height: 800px;
             background-image: url("https://raw.githubusercontent.com/Sandeep-Anu/WeddingInvite/main/warm-natural-wooden-surface-with-soft-lighting-and-a-blurred-wall-creating-a-cozy-and-organic-setting-for-product-presentation-photo.jpg");
             background-size: cover;
             background-position: center bottom;
@@ -102,12 +120,11 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* Align to the bottom... */
-            padding-bottom: 120px; /* ...but push it up to show table in front */
+            align-items: flex-end;
+            padding-bottom: 120px;
             margin-bottom: 30px;
             position: relative;
             overflow: hidden;
-            /* Enhance background realism slightly */
             background-color: #c4b6a6;
             background-blend-mode: multiply;
         }
@@ -121,15 +138,12 @@
             border-top-left-radius: 160px;
             border-top-right-radius: 160px;
             padding: 22px 24px 25px 24px;
-            
-            /* Realistic standing shadow and slight 3D perspective */
             box-shadow: 
-                0 35px 50px -15px rgba(0, 0, 0, 0.45), /* Wide, soft shadow cast behind */
-                0 10px 15px -5px rgba(0, 0, 0, 0.2),  /* Sharp shadow near the base */
-                inset 0 -5px 10px rgba(0, 0, 0, 0.03); /* Grounding shadow on the card itself */
-            transform: perspective(1000px) rotateX(2deg); /* Subtle lean backward */
+                0 35px 50px -15px rgba(0, 0, 0, 0.45),
+                0 10px 15px -5px rgba(0, 0, 0, 0.2),
+                inset 0 -5px 10px rgba(0, 0, 0, 0.03);
+            transform: perspective(1000px) rotateX(2deg);
             transform-origin: bottom center;
-            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -175,11 +189,22 @@
 
         /* Cordially Invited Heading */
         .invitation-heading {
-            font-size: 1.35rem;
+            font-size: 1.1rem; /* Decreased size to make space */
             color: var(--text-color);
-            margin-bottom: 12px;
+            margin-bottom: 4px; /* Decreased margin */
             font-weight: normal;
             letter-spacing: 0.5px;
+        }
+
+        /* New Invitee Name Text */
+        .invitee-name {
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            font-style: italic;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            min-height: 1.5rem;
         }
 
         /* Divider Line */
@@ -267,11 +292,12 @@
     <div class="header-bar">
         <div class="header-title">Wedding Invitation Generator</div>
         <div class="btn-group">
+            <input type="text" id="inviteeNameInput" class="name-input" placeholder="Enter Guest Name..." oninput="updateInviteeName()">
             <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
-                📷 Change Photo
+                胴 Change Photo
             </button>
             <button class="btn" onclick="downloadInvitation()">
-                📥 Download PNG
+                踏 Download PNG
             </button>
         </div>
     </div>
@@ -297,6 +323,7 @@
             </div>
 
             <h2 class="invitation-heading">You are Cordially Invited</h2>
+            <div class="invitee-name" id="inviteeNameDisplay">Dear Guest</div>
 
             <div class="divider-line"></div>
 
@@ -307,8 +334,8 @@
 
             <div class="section-title">OUR DETAILS</div>
             <ul class="details-list">
-                <li>&bull; 👰 Bride: Ruchira</li>
-                <li>&bull; 🤵 Groom: Chaminda</li>
+                <li>&bull; 族 Bride: Ruchira</li>
+                <li>&bull; ､ｵ Groom: Chaminda</li>
                 <li>&bull; Date: Saturday, 12 September 2026</li>
                 <li>&bull; Time: 7:00 PM to 11:00 PM</li>
                 <li>&bull; Venue: Level 19, Kris with a View, Park Regis<br>Kris Kin Hotel, Dubai, UAE</li>
@@ -316,7 +343,7 @@
 
             <div class="dress-code-box">
                 <div class="dress-code-title">
-                    <span>👗</span> DRESS CODE:
+                    <span>送</span> DRESS CODE:
                 </div>
                 <p class="dress-code-desc">
                     Feel free to wear comfortable and appropriate attire. 
@@ -334,6 +361,12 @@
     </div>
 
     <script>
+        // Update Invitee Name dynamically
+        function updateInviteeName() {
+            const name = document.getElementById('inviteeNameInput').value;
+            document.getElementById('inviteeNameDisplay').innerText = name || 'Dear Guest';
+        }
+
         // Load Uploaded Photo
         function loadNewPhoto(event) {
             const file = event.target.files[0];
@@ -351,7 +384,7 @@
             const captureArea = document.getElementById('captureArea');
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '⏳ Generating...';
+            btn.innerHTML = '竢ｳ Generating...';
             btn.disabled = true;
 
             try {
