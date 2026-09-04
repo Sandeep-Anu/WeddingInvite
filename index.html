@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ruchira & Chaminda · Wedding Invitation</title>
   <!-- html2canvas for JPG export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+  </script>
   <style>
     /* ----- base & reset ----- */
     * {
@@ -32,7 +33,7 @@
       background: #fefcf8;
       border-radius: 28px;
       padding: 24px 26px 28px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
       margin-bottom: 30px;
       border: 1px solid #e5ddcf;
     }
@@ -109,9 +110,9 @@
       padding-top: 12px;
     }
 
-    /* ----- invitation card (exact reference look) ----- */
+    /* ----- invitation card (exact expected look) ----- */
     .card {
-      width: 380px;               /* slightly wider to fit photo nicely */
+      width: 380px;
       max-width: 96%;
       background: #f6f2ea;
       border-radius: 170px 170px 14px 14px;
@@ -135,7 +136,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     .photo-container img {
       width: 100%;
@@ -167,6 +168,7 @@
       letter-spacing: 0.6px;
     }
 
+    /* guest line: italic, golden, placed right after title */
     .guest-line {
       font-size: 17px;
       font-style: italic;
@@ -192,6 +194,7 @@
       font-weight: 400;
     }
 
+    /* details: dash bullets, exactly like expected */
     .details {
       list-style: none;
       padding: 0;
@@ -199,17 +202,19 @@
       font-size: 15px;
       line-height: 1.85;
       color: #3f3a2f;
-    }
-    .details li::before {
-      content: "• ";
-      color: #7c8560;
+      text-align: left;
+      display: inline-block;
     }
     .details li {
       padding-left: 2px;
     }
+    .details li::before {
+      content: "- ";
+      color: #7c8560;
+    }
 
     .dress-title {
-      font-size: 14px;
+      font-size: 15px;
       letter-spacing: 0.5px;
       color: #5f6a48;
       margin: 0 0 6px;
@@ -272,7 +277,7 @@
     <h3>✨ Personalise your invitation</h3>
 
     <label for="guestName">Guest / friend's name</label>
-    <input id="guestName" type="text" placeholder="e.g. Dear Nadeesha" value="Dear Friend" />
+    <input id="guestName" type="text" placeholder="e.g. Dear Sandeep" value="Dear Sandeep" />
 
     <label for="photoUpload">Upload couple photo (square or crop will be circular)</label>
     <input id="photoUpload" type="file" accept="image/*" />
@@ -297,29 +302,32 @@
     </div>
 
     <svg class="wreath-svg" viewBox="0 0 100 100" fill="none" stroke="#a8935f" stroke-width="1.3" stroke-linecap="round">
-      <circle cx="50" cy="50" r="30" stroke="#a8935f" stroke-width="1.2"/>
-      <path d="M20 50 Q25 40 30 45 Q35 38 40 44" stroke="#a8935f" stroke-width="1.4"/>
-      <path d="M80 50 Q75 40 70 45 Q65 38 60 44" stroke="#a8935f" stroke-width="1.4"/>
-      <path d="M50 20 Q40 25 45 30 Q38 35 44 40" stroke="#a8935f" stroke-width="1.2"/>
-      <path d="M50 80 Q40 75 45 70 Q38 65 44 60" stroke="#a8935f" stroke-width="1.2"/>
-      <circle cx="50" cy="50" r="4" fill="#a8935f" stroke="none"/>
+      <circle cx="50" cy="50" r="30" stroke="#a8935f" stroke-width="1.2" />
+      <path d="M20 50 Q25 40 30 45 Q35 38 40 44" stroke="#a8935f" stroke-width="1.4" />
+      <path d="M80 50 Q75 40 70 45 Q65 38 60 44" stroke="#a8935f" stroke-width="1.4" />
+      <path d="M50 20 Q40 25 45 30 Q38 35 44 40" stroke="#a8935f" stroke-width="1.2" />
+      <path d="M50 80 Q40 75 45 70 Q38 65 44 60" stroke="#a8935f" stroke-width="1.2" />
+      <circle cx="50" cy="50" r="4" fill="#a8935f" stroke="none" />
     </svg>
 
     <p class="invited">You are Cordially Invited</p>
-    <p class="guest-line" id="guestLine">Dear Friend</p>
+    <p class="guest-line" id="guestLine">Dear Sandeep</p>
     <hr class="rule" />
 
     <p class="intro">we both warmly invite you to our<br />Wedding Registration Ceremony.</p>
 
+    <!-- details with dash bullets, venue split into two lines exactly as expected -->
     <ul class="details">
       <li>Bride: Ruchira</li>
       <li>Groom: Chaminda</li>
       <li>Date: Saturday, 12 September 2026</li>
       <li>Time: 7:00 PM to 11:00 PM</li>
-      <li>Venue: Level 19, Kris with a View, Park Regis<br />Kris Kin Hotel, Dubai, UAE</li>
+      <li>Venue: Level 19, Kris with a View, Park Regis</li>
+      <li>Kris Kin Hotel, Dubai, UAE</li>
     </ul>
 
-    <p class="dress-title">🌿 DRESS CODE</p>
+    <!-- dress code heading exactly as expected: ### DRESS CODE -->
+    <p class="dress-title">### DRESS CODE</p>
     <p class="dress-body">Feel free to wear comfortable and appropriate attire. If possible, we kindly invite you to join our color theme by wearing soft, earthy, or light tones.</p>
 
     <p class="motto">*Love, Truth &amp; Honour We Will Carry Forever*</p>
@@ -332,9 +340,9 @@
       // ----- name update -----
       const nameInput = document.getElementById('guestName');
       const guestLine = document.getElementById('guestLine');
-      guestLine.textContent = nameInput.value || 'Dear Friend';
+      guestLine.textContent = nameInput.value || 'Dear Sandeep';
       nameInput.addEventListener('input', function() {
-        guestLine.textContent = this.value.trim() || 'Dear Friend';
+        guestLine.textContent = this.value.trim() || 'Dear Sandeep';
       });
 
       // ----- photo upload -----
@@ -353,7 +361,6 @@
           };
           reader.readAsDataURL(file);
         } else {
-          // reset
           coupleImg.src = '';
           coupleImg.style.display = 'none';
           placeholder.style.display = 'block';
@@ -364,15 +371,13 @@
       const downloadBtn = document.getElementById('downloadJpgBtn');
       downloadBtn.addEventListener('click', function() {
         const card = document.getElementById('invitationCard');
-        // temporarily hide controls (if any overlap) – but they are outside
         html2canvas(card, {
-          scale: 2.5,                  // high quality
-          backgroundColor: '#f6f2ea',  // match card background
+          scale: 2.5,
+          backgroundColor: '#f6f2ea',
           allowTaint: false,
           useCORS: true,
           logging: false
         }).then(canvas => {
-          // create download link
           const link = document.createElement('a');
           link.download = 'wedding-invitation.jpg';
           link.href = canvas.toDataURL('image/jpeg', 0.95);
