@@ -1,395 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ruchira & Chaminda · Wedding Invitation</title>
-  <!-- html2canvas for JPG export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-  </script>
-  <style>
-    /* ----- base & reset ----- */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation - Editable</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: #e7e1d3;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 16px;
-      font-family: 'Cormorant', serif;
-    }
+        body {
+            background: #f5efe9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 20px;
+        }
 
-    /* ----- control panel (hidden on print/export) ----- */
-    .panel {
-      width: 100%;
-      max-width: 420px;
-      background: #fefcf8;
-      border-radius: 28px;
-      padding: 24px 26px 28px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-      margin-bottom: 30px;
-      border: 1px solid #e5ddcf;
-    }
-    .panel h3 {
-      font-size: 18px;
-      font-weight: 500;
-      color: #3f3a2f;
-      letter-spacing: 0.3px;
-      margin: 0 0 14px 0;
-      border-bottom: 1px dashed #d6cdbb;
-      padding-bottom: 8px;
-    }
-    .panel label {
-      display: block;
-      font-size: 14px;
-      color: #5f5a4b;
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-    .panel input[type="text"],
-    .panel input[type="file"] {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #d6cdbb;
-      border-radius: 30px;
-      font-size: 16px;
-      font-family: 'Cormorant', serif;
-      background: #fcf9f4;
-      transition: 0.2s;
-      margin-bottom: 12px;
-    }
-    .panel input:focus {
-      outline: none;
-      border-color: #a8935f;
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(168, 147, 95, 0.15);
-    }
-    .panel .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .panel .btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 40px;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Cormorant', serif;
-      transition: 0.2s;
-      text-align: center;
-      background: #5f6a48;
-      color: white;
-    }
-    .panel .btn:hover {
-      background: #4d5738;
-      transform: scale(0.98);
-    }
-    .panel .btn-secondary {
-      background: #a8935f;
-    }
-    .panel .btn-secondary:hover {
-      background: #8f7a4c;
-    }
-    .panel .hint {
-      font-size: 13px;
-      color: #8a8475;
-      margin-top: 14px;
-      line-height: 1.4;
-      text-align: center;
-      border-top: 1px solid #e5ddcf;
-      padding-top: 12px;
-    }
+        .controls {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    /* ----- invitation card (exact expected look) ----- */
-    .card {
-      width: 380px;
-      max-width: 96%;
-      background: #f6f2ea;
-      border-radius: 170px 170px 14px 14px;
-      padding: 40px 30px 40px;
-      text-align: center;
-      color: #3f3a2f;
-      box-shadow: 0 10px 34px rgba(0, 0, 0, 0.10);
-      position: relative;
-      transition: 0.1s;
-    }
+        .controls label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #5d4037;
+        }
 
-    /* ---- photo placeholder ---- */
-    .photo-container {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      margin: 0 auto 16px;
-      overflow: hidden;
-      border: 3px solid #cfc6ac;
-      background: #e8e0d1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    .photo-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .photo-placeholder-text {
-      color: #a8935f;
-      font-size: 13px;
-      font-style: italic;
-      text-align: center;
-      line-height: 1.3;
-      padding: 10px;
-    }
+        .controls input {
+            padding: 10px 18px;
+            font-size: 16px;
+            border: 2px solid #d7c4b3;
+            border-radius: 30px;
+            outline: none;
+            width: 250px;
+            transition: 0.3s;
+        }
 
-    .wreath-svg {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 14px;
-      display: block;
-    }
+        .controls input:focus {
+            border-color: #a67c6b;
+            box-shadow: 0 0 0 3px rgba(166, 124, 107, 0.2);
+        }
 
-    .invited {
-      font-size: 26px;
-      color: #5f6a48;
-      margin: 0 0 4px;
-      font-weight: 500;
-      letter-spacing: 0.6px;
-    }
+        .controls button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background: #a67c6b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-    /* guest line: italic, golden, placed right after title */
-    .guest-line {
-      font-size: 17px;
-      font-style: italic;
-      color: #a8935f;
-      margin: 0 0 10px;
-      min-height: 28px;
-      word-break: break-word;
-      font-weight: 500;
-    }
+        .controls button:hover {
+            background: #8c6554;
+            transform: scale(1.02);
+        }
 
-    .rule {
-      border: none;
-      border-top: 1px solid #cfc6ac;
-      width: 78%;
-      margin: 0 auto 14px;
-    }
+        /* -------- Invitation Card -------- */
+        #invitation-card {
+            background: #fcf9f5;
+            width: 650px;
+            max-width: 100%;
+            padding: 45px 40px 40px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            border: 1px solid #e6d9ce;
+            position: relative;
+            text-align: center;
+            transition: 0.2s;
+            /* subtle decorative border */
+        }
 
-    .intro {
-      font-size: 16px;
-      color: #5f6a48;
-      line-height: 1.35;
-      margin: 0 0 16px;
-      font-weight: 400;
-    }
+        #invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed #d7c4b3;
+            border-radius: 16px;
+            pointer-events: none;
+        }
 
-    /* details: dash bullets, exactly like expected */
-    .details {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 18px;
-      font-size: 15px;
-      line-height: 1.85;
-      color: #3f3a2f;
-      text-align: left;
-      display: inline-block;
-    }
-    .details li {
-      padding-left: 2px;
-    }
-    .details li::before {
-      content: "- ";
-      color: #7c8560;
-    }
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
 
-    .dress-title {
-      font-size: 15px;
-      letter-spacing: 0.5px;
-      color: #5f6a48;
-      margin: 0 0 6px;
-      font-weight: 600;
-    }
-    .dress-body {
-      font-size: 14px;
-      line-height: 1.5;
-      color: #3f3a2f;
-      margin: 0 0 18px;
-    }
+        .invitee-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4a2c24;
+            margin: 15px 0 5px;
+            letter-spacing: 1px;
+            font-family: 'Georgia', serif;
+            min-height: 50px;
+            border-bottom: 2px solid #e6d9ce;
+            padding-bottom: 12px;
+        }
 
-    .motto {
-      font-style: italic;
-      font-size: 15px;
-      color: #a8935f;
-      margin: 0 0 18px;
-      letter-spacing: 0.2px;
-    }
+        .invitee-name.empty {
+            color: #bba89a;
+            font-weight: normal;
+            font-style: italic;
+            font-size: 20px;
+        }
 
-    .rsvp {
-      font-size: 13.5px;
-      line-height: 1.5;
-      color: #3f3a2f;
-    }
-    .rsvp b {
-      color: #5f6a48;
-      font-weight: 600;
-    }
+        .main-title {
+            font-size: 28px;
+            color: #4a2c24;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            font-weight: normal;
+        }
 
-    /* ----- print / export ----- */
-    @media print {
-      body {
-        background: #f6f2ea;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-      }
-      .panel {
-        display: none !important;
-      }
-      .card {
-        box-shadow: none !important;
-        border-radius: 170px 170px 14px 14px;
-        width: 380px;
-        margin: 0 auto;
-        background: #f6f2ea;
-        padding: 40px 30px 40px;
-      }
-    }
-  </style>
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: #c8b4a3;
+            margin: 18px auto;
+        }
+
+        .details {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #3d2c24;
+            margin: 12px 0;
+        }
+
+        .details .label {
+            font-weight: bold;
+            color: #5d4037;
+        }
+
+        .details .highlight {
+            color: #8c6554;
+            font-weight: 600;
+        }
+
+        .venue {
+            font-weight: 600;
+            color: #4a2c24;
+        }
+
+        .dress-code {
+            margin: 20px 0 12px;
+            font-size: 16px;
+            background: #f5ede8;
+            padding: 12px 15px;
+            border-radius: 30px;
+            display: inline-block;
+            color: #3d2c24;
+        }
+
+        .dress-code strong {
+            color: #5d4037;
+        }
+
+        .rsvp {
+            margin-top: 25px;
+            font-size: 16px;
+            color: #5d4037;
+            border-top: 1px solid #e6d9ce;
+            padding-top: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .rsvp a {
+            color: #8c6554;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .rsvp a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #998b82;
+            font-style: italic;
+        }
+
+        /* background pattern option (light floral) */
+        .floral-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: radial-gradient(circle at 20% 30%, #a67c6b 1px, transparent 1px),
+                              radial-gradient(circle at 80% 70%, #a67c6b 1px, transparent 1px);
+            background-size: 60px 60px;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 700px) {
+            #invitation-card {
+                padding: 30px 20px;
+            }
+            .invitee-name {
+                font-size: 26px;
+            }
+            .main-title {
+                font-size: 22px;
+            }
+            .details {
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- control panel -->
-  <div class="panel" id="controls">
-    <h3>✨ Personalise your invitation</h3>
-
-    <label for="guestName">Guest / friend's name</label>
-    <input id="guestName" type="text" placeholder="e.g. Dear Sandeep" value="Dear Sandeep" />
-
-    <label for="photoUpload">Upload couple photo (square or crop will be circular)</label>
-    <input id="photoUpload" type="file" accept="image/*" />
-
-    <div class="btn-row">
-      <button class="btn" id="downloadJpgBtn">⬇ Download as JPG</button>
-      <button class="btn btn-secondary" onclick="window.print()">🖨️ Print / PDF</button>
+    <div class="controls">
+        <label for="nameInput">👤 Invitee Name:</label>
+        <input type="text" id="nameInput" placeholder="e.g. Mr. & Mrs. Perera" value="">
+        <button id="downloadBtn">⬇️ Download as Image</button>
     </div>
 
-    <p class="hint">
-      Type a name – card updates instantly. Upload a photo to replace the placeholder.
-      Use <strong>Download as JPG</strong> to save the full invitation as an image.
-    </p>
-  </div>
+    <!-- Invitation Card -->
+    <div id="invitation-card">
+        <div class="floral-bg"></div>
+        <div class="card-content" id="cardContent">
+            <!-- Invitee Name (will be replaced by JS) -->
+            <div class="invitee-name empty" id="inviteeDisplay">[Guest Name]</div>
 
-  <!-- invitation card -->
-  <div class="card" id="invitationCard">
-    <!-- photo container -->
-    <div class="photo-container" id="photoContainer">
-      <img id="couplePhoto" src="" alt="Couple photo" style="display:none;" />
-      <span class="photo-placeholder-text" id="photoPlaceholder">💑<br />your photo</span>
+            <div class="main-title">
+                You are Cordially Invited
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="details">
+                <span class="label">Bride:</span> Ruchira &nbsp;&nbsp;|&nbsp;&nbsp; <span class="label">Groom:</span> Chaminda
+            </div>
+            <div class="details">
+                <span class="label">Date:</span> <span class="highlight">Saturday, 12 September 2026</span>
+            </div>
+            <div class="details">
+                <span class="label">Time:</span> 7:00 PM – 11:00 PM
+            </div>
+            <div class="details">
+                <span class="label">Venue:</span> <span class="venue">Level 19, Kris with a View, Park Regis</span><br>
+                Kris Kin Hotel, Dubai, UAE
+            </div>
+
+            <div class="dress-code">
+                <strong>DRESS CODE:</strong> Comfortable &amp; appropriate attire<br>
+                <span style="font-size: 15px; color:#6b5548;">Soft, earthy, or light tones appreciated</span>
+            </div>
+
+            <div class="rsvp">
+                <strong>RSVP:</strong> Please kindly RSVP as soon as possible to confirm your attendance.<br>
+                We hope to see you there!
+            </div>
+
+            <div class="footer-note">— with love, Ruchira &amp; Chaminda —</div>
+        </div>
     </div>
 
-    <svg class="wreath-svg" viewBox="0 0 100 100" fill="none" stroke="#a8935f" stroke-width="1.3" stroke-linecap="round">
-      <circle cx="50" cy="50" r="30" stroke="#a8935f" stroke-width="1.2" />
-      <path d="M20 50 Q25 40 30 45 Q35 38 40 44" stroke="#a8935f" stroke-width="1.4" />
-      <path d="M80 50 Q75 40 70 45 Q65 38 60 44" stroke="#a8935f" stroke-width="1.4" />
-      <path d="M50 20 Q40 25 45 30 Q38 35 44 40" stroke="#a8935f" stroke-width="1.2" />
-      <path d="M50 80 Q40 75 45 70 Q38 65 44 60" stroke="#a8935f" stroke-width="1.2" />
-      <circle cx="50" cy="50" r="4" fill="#a8935f" stroke="none" />
-    </svg>
+    <script>
+        (function() {
+            const nameInput = document.getElementById('nameInput');
+            const inviteeDisplay = document.getElementById('inviteeDisplay');
+            const card = document.getElementById('invitation-card');
+            const downloadBtn = document.getElementById('downloadBtn');
 
-    <p class="invited">You are Cordially Invited</p>
-    <p class="guest-line" id="guestLine">Dear Sandeep</p>
-    <hr class="rule" />
+            // Update name in real time
+            function updateName() {
+                const val = nameInput.value.trim();
+                if (val === '') {
+                    inviteeDisplay.textContent = '[Guest Name]';
+                    inviteeDisplay.classList.add('empty');
+                } else {
+                    inviteeDisplay.textContent = val;
+                    inviteeDisplay.classList.remove('empty');
+                }
+            }
 
-    <p class="intro">we both warmly invite you to our<br />Wedding Registration Ceremony.</p>
+            nameInput.addEventListener('input', updateName);
+            // initial update
+            updateName();
 
-    <!-- details with dash bullets, venue split into two lines exactly as expected -->
-    <ul class="details">
-      <li>Bride: Ruchira</li>
-      <li>Groom: Chaminda</li>
-      <li>Date: Saturday, 12 September 2026</li>
-      <li>Time: 7:00 PM to 11:00 PM</li>
-      <li>Venue: Level 19, Kris with a View, Park Regis</li>
-      <li>Kris Kin Hotel, Dubai, UAE</li>
-    </ul>
+            // Download as PNG
+            downloadBtn.addEventListener('click', function() {
+                // Temporarily remove the decorative dashed border for cleaner capture (it's on pseudo-element, we keep it)
+                // Also ensure the input doesn't show in the capture
+                // We'll capture the card element
+                html2canvas(card, {
+                    scale: 2.5,              // high quality
+                    backgroundColor: null,     // preserve transparency if card bg is transparent? We have bg, so use white
+                    useCORS: true,
+                    logging: false,
+                    allowTaint: true,
+                    backgroundColor: '#fcf9f5' // match card background
+                }).then((canvas) => {
+                    // Create download link
+                    const link = document.createElement('a');
+                    link.download = 'wedding_invitation.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch((error) => {
+                    alert('Error generating image. Please try again or use a different browser.');
+                    console.error(error);
+                });
+            });
 
-    <!-- dress code heading exactly as expected: ### DRESS CODE -->
-    <p class="dress-title">### DRESS CODE</p>
-    <p class="dress-body">Feel free to wear comfortable and appropriate attire. If possible, we kindly invite you to join our color theme by wearing soft, earthy, or light tones.</p>
-
-    <p class="motto">*Love, Truth &amp; Honour We Will Carry Forever*</p>
-
-    <p class="rsvp"><b>RSVP:</b> Please kindly RSVP as soon as possible to confirm your attendance. We hope to see you there!</p>
-  </div>
-
-  <script>
-    (function() {
-      // ----- name update -----
-      const nameInput = document.getElementById('guestName');
-      const guestLine = document.getElementById('guestLine');
-      guestLine.textContent = nameInput.value || 'Dear Sandeep';
-      nameInput.addEventListener('input', function() {
-        guestLine.textContent = this.value.trim() || 'Dear Sandeep';
-      });
-
-      // ----- photo upload -----
-      const photoInput = document.getElementById('photoUpload');
-      const coupleImg = document.getElementById('couplePhoto');
-      const placeholder = document.getElementById('photoPlaceholder');
-
-      photoInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(ev) {
-            coupleImg.src = ev.target.result;
-            coupleImg.style.display = 'block';
-            placeholder.style.display = 'none';
-          };
-          reader.readAsDataURL(file);
-        } else {
-          coupleImg.src = '';
-          coupleImg.style.display = 'none';
-          placeholder.style.display = 'block';
-        }
-      });
-
-      // ----- download as JPG using html2canvas -----
-      const downloadBtn = document.getElementById('downloadJpgBtn');
-      downloadBtn.addEventListener('click', function() {
-        const card = document.getElementById('invitationCard');
-        html2canvas(card, {
-          scale: 2.5,
-          backgroundColor: '#f6f2ea',
-          allowTaint: false,
-          useCORS: true,
-          logging: false
-        }).then(canvas => {
-          const link = document.createElement('a');
-          link.download = 'wedding-invitation.jpg';
-          link.href = canvas.toDataURL('image/jpeg', 0.95);
-          link.click();
-        }).catch(err => {
-          alert('Could not generate image. Please try again or use Print.');
-          console.error(err);
-        });
-      });
-
-    })();
-  </script>
+        })();
+    </script>
 
 </body>
 </html>
