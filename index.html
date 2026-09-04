@@ -7,13 +7,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-    --bg-color: #DCD2C3;       /* Warm background behind the card */
-    --card-bg: #EAE0D0;         /* Warm, linen-beige color for the invitation card */
-    --text-color: #3D3331;     /* Slightly darker text for crisp contrast on warm beige */
-    --accent-gold: #9E7D47;   /* Deeper vintage gold accent */
-    --border-color: #C8B8A5;
-}
-
+            --bg-color: #DCD2C3;       /* Warm background behind the card */
+            --card-bg: #EAE0D0;        /* Warm, linen-beige color for the card */
+            --text-color: #3D3331;     /* Darker text for contrast */
+            --accent-gold: #9E7D47;    /* Vintage gold accent */
+            --border-color: #C8B8A5;
+        }
 
         * {
             box-sizing: border-box;
@@ -77,7 +76,7 @@
         }
 
         .btn:hover {
-            background-color: #9e7a41;
+            background-color: #8c6e3d;
             transform: translateY(-1px);
         }
 
@@ -88,75 +87,50 @@
         }
 
         .btn-outline:hover {
-            background-color: #f5eedf;
+            background-color: rgba(0,0,0,0.03);
         }
 
-        /* Card Container Frame */
-        ./* Tablecloth Background Frame */
-.card-wrapper {
-    background-color: #D3C5B2;
-    /* Soft lighting gradient combined with woven linen noise pattern */
-    background-image: 
-        radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.35) 0%, rgba(0, 0, 0, 0.12) 100%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23linen)' opacity='0.15'/%3E%3C/svg%3E");
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: inset 0 0 40px rgba(0,0,0,0.06);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-}
+        /* Tablecloth Background Frame */
+        .card-wrapper {
+            background-color: #D3C5B2;
+            /* Soft lighting gradient combined with woven linen noise pattern */
+            background-image: 
+                radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.35) 0%, rgba(0, 0, 0, 0.12) 100%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23linen)' opacity='0.15'/%3E%3C/svg%3E");
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-/* Realistic Drop Shadow on the Card */
-.invitation-card {
-    /* (Keep your existing width, height, and border-radius styles) */
-    
-}
+        /* Compact Card Sized for Mobile & WhatsApp Sharing */
+        .invitation-card {
+            width: 360px;
+            min-height: 560px;
+            background-color: var(--card-bg);
+            /* Subtle paper noise texture on the card */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
+            border-top-left-radius: 180px;
+            border-top-right-radius: 180px;
+            padding: 24px 28px 30px 28px;
+            box-shadow: 0 16px 38px rgba(60, 45, 30, 0.22), 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
 
-        /* Arched Invitation Card */
-        ./* Arched Invitation Card with Paper Texture */
-./* Compact Card Sized for Mobile & WhatsApp Sharing */
-.invitation-card {
-    width: 360px; /* Scaled down width */
-    min-height: 560px;
-    background-color: var(--card-bg);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
-    border-top-left-radius: 180px; /* Perfectly half of 360px */
-    border-top-right-radius: 180px;
-    padding: 24px 28px 30px 28px;
-    box-shadow: 0 16px 38px rgba(60, 45, 30, 0.22), 0 4px 10px rgba(0, 0, 0, 0.08) !important
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    position: relative;
-}
-
-/* Centered Photo Frame Inside the Arch */
-.photo-frame {
-    width: 95px;
-    height: 95px;
-    border-radius: 50%;
-    border: 2.5px solid var(--accent-gold);
-    overflow: hidden;
-    margin-top: -55px; /* Pulls photo up into the arch center */
-    margin-bottom: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    position: relative;
-    background-color: #f0e6d8;
-}
-
-
-/* SVG Arch Text */
-.arch-text-container {
-    width: 100%;
-    height: 125px;
-    margin-top: 10px;
-    margin-bottom: -35px;
-}
-
-
+        /* SVG Arch Text (Perfect Circle) */
+        .arch-text-container {
+            width: 100%;
+            height: 125px;
+            margin-top: 10px;
+            margin-bottom: -35px;
+        }
 
         .arch-text-svg {
             width: 100%;
@@ -164,20 +138,20 @@
             overflow: visible;
         }
 
-        /* Couple Photo Circle */
-      /*  .photo-frame {
-            width: 130px;
-            height: 130px;
+        /* Centered Photo Frame Inside the Arch */
+        .photo-frame {
+            width: 95px;
+            height: 95px;
             border-radius: 50%;
-            border: 3px solid var(--accent-gold);
+            border: 2.5px solid var(--accent-gold);
             overflow: hidden;
-            margin-top: -10px;
-            margin-bottom: 20px;
+            margin-top: -55px; /* Pulls photo directly into the arch center */
+            margin-bottom: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             position: relative;
             background-color: #f0e6d8;
         }
-*/
+
         .photo-frame img {
             width: 100%;
             height: 100%;
@@ -201,20 +175,11 @@
             margin: 8px 0 16px 0;
         }
 
-        /* Guest Name Display */
-        .guest-greeting {
-            font-size: 1.25rem;
-            font-style: italic;
-            color: var(--accent-gold);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
         /* Main Invitation Text */
         .invitation-text {
             font-size: 0.95rem;
             line-height: 1.45;
-            color: #5A4E4D;
+            color: #4b403f;
             margin-bottom: 18px;
         }
 
@@ -228,13 +193,14 @@
             margin-bottom: 8px;
         }
 
-        /* Details List */
+        /* Details List (Centered to match design) */
         .details-list {
             list-style: none;
             font-size: 0.88rem;
             line-height: 1.6;
             color: var(--text-color);
             margin-bottom: 18px;
+            text-align: center;
         }
 
         .details-list li {
@@ -260,99 +226,19 @@
 
         .dress-code-desc {
             font-size: 0.78rem;
-            color: #6B5E5D;
+            color: #4b403f;
             line-height: 1.4;
-            max-width: 340px;
+            max-width: 300px;
+            margin: 0 auto;
         }
 
         /* RSVP Section */
         .rsvp-box {
             font-size: 0.78rem;
-            color: #6B5E5D;
+            color: #4b403f;
             line-height: 1.4;
-            border-top: 1px dashed var(--border-color);
-            padding-top: 12px;
+            padding-top: 6px;
             width: 100%;
-        }
-
-        /* MODAL DIALOG STYLES */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background: #ffffff;
-            width: 90%;
-            max-width: 440px;
-            border-radius: 12px;
-            padding: 25px 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-color);
-            margin-bottom: 15px;
-
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #6B5E5D;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1.5px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
         }
 
         /* Hidden File Input */
@@ -366,9 +252,6 @@
     <div class="header-bar">
         <div class="header-title">Wedding Invitation Generator</div>
         <div class="btn-group">
-            <button class="btn btn-outline" onclick="openModal()">
-                ✏️ Edit Invitee Name
-            </button>
             <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
                 📷 Change Photo
             </button>
@@ -380,26 +263,24 @@
 
     <input type="file" id="photoFileInput" accept="image/*" onchange="loadNewPhoto(event)">
 
-    <div class="card-wrapper">
+    <!-- The wrapper contains the tablecloth background -->
+    <div class="card-wrapper" id="captureArea">
         <div class="invitation-card" id="invitationCard">
             
             <div class="arch-text-container">
-    <svg viewBox="0 0 400 180" class="arch-text-svg">
-        <path id="curvePath" d="M 35 170 A 165 165 0 0 1 365 170" fill="transparent" />
-        <text fill="#9E7D47" font-family="Georgia, serif" font-size="14.5" font-weight="600" letter-spacing="1.2">
-            <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
-                Love, Truth &amp; Honour We Will Carry Forever
-            </textPath>
-        </text>
-    </svg>
-</div>
-
+                <svg viewBox="0 0 400 180" class="arch-text-svg">
+                    <path id="curvePath" d="M 35 170 A 165 165 0 0 1 365 170" fill="transparent" />
+                    <text fill="#9E7D47" font-family="Georgia, serif" font-size="14.5" font-weight="600" letter-spacing="1.2">
+                        <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
+                            Love, Truth &amp; Honour We Will Carry Forever
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
 
             <div class="photo-frame">
                 <img id="couplePhoto" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" alt="Couple Photo">
             </div>
-
-            <div class="guest-greeting" id="cardGuestName">Dear [Invitee Name],</div>
 
             <h2 class="invitation-heading">You are Cordially Invited</h2>
 
@@ -407,16 +288,16 @@
 
             <p class="invitation-text">
                 We both warmly invite you to our<br>
-                <strong>Wedding Registration Ceremony</strong>
+                Wedding Registration Ceremony.
             </p>
 
             <div class="section-title">OUR DETAILS</div>
             <ul class="details-list">
-                <li>👰 <strong>Bride:</strong> Ruchira</li>
-                <li>🤵 <strong>Groom:</strong> Chaminda</li>
-                <li><strong>Date:</strong> Saturday, 12 September 2026</li>
-                <li><strong>Time:</strong> 7:00 PM to 11:00 PM</li>
-                <li><strong>Venue:</strong> Level 19, Kris with a View, Park Regis<br>Kris Kin Hotel, Dubai, UAE</li>
+                <li>&bull; 👰 Bride: Ruchira</li>
+                <li>&bull; 🤵 Groom: Chaminda</li>
+                <li>&bull; Date: Saturday, 12 September 2026</li>
+                <li>&bull; Time: 7:00 PM to 11:00 PM</li>
+                <li>&bull; Venue: Level 19, Kris with a View, Park Regis<br>Kris Kin Hotel, Dubai, UAE</li>
             </ul>
 
             <div class="dress-code-box">
@@ -424,63 +305,21 @@
                     <span>👗</span> DRESS CODE:
                 </div>
                 <p class="dress-code-desc">
-                    Feel free to wear comfortable and appropriate attire.
-                    If possible, we kindly invite you to join our color theme
+                    Feel free to wear comfortable and appropriate attire. 
+                    If possible, we kindly invite you to join our color theme 
                     by wearing soft, earthy, or light tones.
                 </p>
             </div>
 
             <div class="rsvp-box">
-                <strong>RSVP:</strong> Please kindly RSVP as soon as possible to
+                RSVP: Please kindly RSVP as soon as possible to<br>
                 confirm your attendance. We hope to see you there!
             </div>
 
         </div>
     </div>
 
-    <div class="modal-overlay" id="nameModal">
-        <div class="modal-card">
-            <div class="modal-header">Edit Invitee Name</div>
-            <div class="form-group">
-                <label for="guestNameInput">Invitee / Guest Name(s):</label>
-                <input type="text" id="guestNameInput" class="form-control" placeholder="e.g. Kasun & Family, Uncle Nimal, etc.">
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-                <button class="btn" onclick="saveGuestName()">Apply Name</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Open Modal
-        function openModal() {
-            document.getElementById('nameModal').classList.add('active');
-            const currentName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '');
-            if (currentName !== '[Invitee Name]') {
-                document.getElementById('guestNameInput').value = currentName;
-            }
-            document.getElementById('guestNameInput').focus();
-        }
-
-        // Close Modal
-        function closeModal() {
-            document.getElementById('nameModal').classList.remove('active');
-        }
-
-        // Save Guest Name to Card
-        function saveGuestName() {
-            const inputVal = document.getElementById('guestNameInput').value.trim();
-            const displayElem = document.getElementById('cardGuestName');
-            
-            if (inputVal) {
-                displayElem.innerText = `Dear ${inputVal},`;
-            } else {
-                displayElem.innerText = "Dear [Invitee Name],";
-            }
-            closeModal();
-        }
-
         // Load Uploaded Photo
         function loadNewPhoto(event) {
             const file = event.target.files[0];
@@ -495,12 +334,9 @@
 
         // Download High Resolution PNG using html2canvas
         async function downloadInvitation() {
-            // Target the wrapper so the tablecloth background is included in the downloaded image
-        const card = document.querySelector('.card-wrapper');
-
-            const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
-            const safeFileName = rawName ? rawName.replace(/[^a-z0-9]/gi, '_') : 'Guest';
-
+            // Target the wrapper to include the warm table shadow and background
+            const captureArea = document.getElementById('captureArea');
+            
             // Show temporary loading status
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
@@ -508,15 +344,14 @@
             btn.disabled = true;
 
             try {
-                const canvas = await html2canvas(card, {
-    scale: 2, // Ideal resolution for fast WhatsApp loading
-    useCORS: true,
-    backgroundColor: '#EAE0D0'
-});
-
+                const canvas = await html2canvas(captureArea, {
+                    scale: 2, // Ideal resolution for quick WhatsApp sharing
+                    useCORS: true,
+                    backgroundColor: '#DCD2C3' // Matches the body background
+                });
 
                 const link = document.createElement('a');
-                link.download = `Wedding_Invitation_${safeFileName}.png`;
+                link.download = `Wedding_Invitation.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
             } catch (err) {
@@ -526,19 +361,6 @@
                 btn.disabled = false;
             }
         }
-
-        // Automatically open modal on initial launch for convenience
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(openModal, 600);
-        });
     </script>
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print("Successfully generated index.html")
-
-
