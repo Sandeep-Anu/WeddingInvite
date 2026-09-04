@@ -94,7 +94,7 @@
         .card-wrapper {
             width: 100%;
             max-width: 600px;
-            height: 800px; 
+            height: 800px; /* Increased height to show more background */
             background-image: url("https://raw.githubusercontent.com/Sandeep-Anu/WeddingInvite/main/warm-natural-wooden-surface-with-soft-lighting-and-a-blurred-wall-creating-a-cozy-and-organic-setting-for-product-presentation-photo.jpg");
             background-size: cover;
             background-position: center bottom;
@@ -102,12 +102,12 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
             display: flex;
             justify-content: center;
-            /* Changed to center to push the card towards the middle of the table */
-            align-items: center; 
-            padding-top: 60px; /* Slight nudge down so it sits perfectly on the table surface */
+            align-items: flex-end; /* Align to the bottom... */
+            padding-bottom: 120px; /* ...but push it up to show table in front */
             margin-bottom: 30px;
             position: relative;
             overflow: hidden;
+            /* Enhance background realism slightly */
             background-color: #c4b6a6;
             background-blend-mode: multiply;
         }
@@ -124,10 +124,10 @@
             
             /* Realistic standing shadow and slight 3D perspective */
             box-shadow: 
-                0 45px 50px -15px rgba(0, 0, 0, 0.45), /* Wider shadow for middle-table placement */
-                0 10px 15px -5px rgba(0, 0, 0, 0.2),  
-                inset 0 -5px 10px rgba(0, 0, 0, 0.03); 
-            transform: perspective(1000px) rotateX(2deg);
+                0 35px 50px -15px rgba(0, 0, 0, 0.45), /* Wide, soft shadow cast behind */
+                0 10px 15px -5px rgba(0, 0, 0, 0.2),  /* Sharp shadow near the base */
+                inset 0 -5px 10px rgba(0, 0, 0, 0.03); /* Grounding shadow on the card itself */
+            transform: perspective(1000px) rotateX(2deg); /* Subtle lean backward */
             transform-origin: bottom center;
             
             display: flex;
@@ -173,22 +173,13 @@
             object-fit: cover;
         }
 
-        /* Cordially Invited Heading - Made Smaller */
+        /* Cordially Invited Heading */
         .invitation-heading {
-            font-size: 1.15rem; 
+            font-size: 1.35rem;
             color: var(--text-color);
-            margin-bottom: 4px;
+            margin-bottom: 12px;
             font-weight: normal;
             letter-spacing: 0.5px;
-        }
-
-        /* Guest Name Display - Added Back */
-        .guest-greeting {
-            font-size: 1.25rem;
-            font-style: italic;
-            color: var(--accent-gold);
-            margin-bottom: 10px;
-            font-weight: 600;
         }
 
         /* Divider Line */
@@ -265,85 +256,6 @@
             width: 100%;
         }
 
-        /* MODAL DIALOG STYLES (Restored) */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background: #ffffff;
-            width: 90%;
-            max-width: 440px;
-            border-radius: 12px;
-            padding: 25px 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-color);
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #6B5E5D;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1.5px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
         /* Hidden File Input */
         #photoFileInput {
             display: none;
@@ -355,9 +267,6 @@
     <div class="header-bar">
         <div class="header-title">Wedding Invitation Generator</div>
         <div class="btn-group">
-            <button class="btn btn-outline" onclick="openModal()">
-                ✏️ Edit Invitee Name
-            </button>
             <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
                 📷 Change Photo
             </button>
@@ -377,7 +286,7 @@
                     <path id="curvePath" d="M 35 185 A 165 165 0 0 1 365 185" fill="transparent" />
                     <text fill="#9E7D47" font-family="Georgia, serif" font-size="14.5" font-weight="600" letter-spacing="1.2">
                         <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
-                            Love, Truth &amp; Honour We Will Carry Forever[span_0](start_span)[span_0](end_span)
+                            Love, Truth &amp; Honour We Will Carry Forever
                         </textPath>
                     </text>
                 </svg>
@@ -387,88 +296,44 @@
                 <img id="couplePhoto" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" alt="Couple Photo">
             </div>
 
-            <h2 class="invitation-heading">You are Cordially Invited[span_1](start_span)[span_1](end_span)</h2>
-            
-            <!-- Guest name placed back with spacing fixes -->
-            <div class="guest-greeting" id="cardGuestName">Dear [Invitee Name],[span_2](start_span)[span_2](end_span)</div>
+            <h2 class="invitation-heading">You are Cordially Invited</h2>
 
             <div class="divider-line"></div>
 
             <p class="invitation-text">
                 We both warmly invite you to our<br>
-                Wedding Registration Ceremony.[span_3](start_span)[span_3](end_span)
+                Wedding Registration Ceremony.
             </p>
 
             <div class="section-title">OUR DETAILS</div>
             <ul class="details-list">
-                <li>&bull; 👰 Bride: Ruchira[span_4](start_span)[span_4](end_span)</li>
-                <li>&bull; 🤵 Groom: Chaminda[span_5](start_span)[span_5](end_span)</li>
-                <li>&bull; Date: Saturday, 12 September 2026[span_6](start_span)[span_6](end_span)</li>
-                <li>&bull; Time: 7:00 PM to 11:00 PM[span_7](start_span)[span_7](end_span)</li>
-                <li>&bull; Venue: Level 19, Kris with a View, Park Regis<br>Kris Kin Hotel, Dubai, UAE[span_8](start_span)[span_8](end_span)</li>
+                <li>&bull; 👰 Bride: Ruchira</li>
+                <li>&bull; 🤵 Groom: Chaminda</li>
+                <li>&bull; Date: Saturday, 12 September 2026</li>
+                <li>&bull; Time: 7:00 PM to 11:00 PM</li>
+                <li>&bull; Venue: Level 19, Kris with a View, Park Regis<br>Kris Kin Hotel, Dubai, UAE</li>
             </ul>
 
             <div class="dress-code-box">
                 <div class="dress-code-title">
-                    <span>👗</span> DRESS CODE:[span_9](start_span)[span_9](end_span)
+                    <span>👗</span> DRESS CODE:
                 </div>
                 <p class="dress-code-desc">
                     Feel free to wear comfortable and appropriate attire. 
                     If possible, we kindly invite you to join our color theme 
-                    by wearing soft, earthy, or light tones.[span_10](start_span)[span_10](end_span)
+                    by wearing soft, earthy, or light tones.
                 </p>
             </div>
 
             <div class="rsvp-box">
                 RSVP: Please kindly RSVP as soon as possible to<br>
-                confirm your attendance. We hope to see you there[span_11](start_span)[span_11](end_span)!
+                confirm your attendance. We hope to see you there!
             </div>
 
-        </div>
-    </div>
-
-    <!-- Invitee Name Modal (Restored) -->
-    <div class="modal-overlay" id="nameModal">
-        <div class="modal-card">
-            <div class="modal-header">Edit Invitee Name[span_12](start_span)[span_12](end_span)</div>
-            <div class="form-group">
-                <label for="guestNameInput">Invitee / Guest Name(s):[span_13](start_span)[span_13](end_span)</label>
-                <input type="text" id="guestNameInput" class="form-control" placeholder="e.g. Kasun & Family, Uncle Nimal, etc.">
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-                <button class="btn" onclick="saveGuestName()">Apply Name</button>
-            </div>
         </div>
     </div>
 
     <script>
-        // Modal Logic
-        function openModal() {
-            document.getElementById('nameModal').classList.add('active');
-            const currentName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '');
-            if (currentName !== '[Invitee Name]') {
-                document.getElementById('guestNameInput').value = currentName;
-            }
-            document.getElementById('guestNameInput').focus();
-        }
-
-        function closeModal() {
-            document.getElementById('nameModal').classList.remove('active');
-        }
-
-        function saveGuestName() {
-            const inputVal = document.getElementById('guestNameInput').value.trim();
-            const displayElem = document.getElementById('cardGuestName');
-            
-            if (inputVal) {
-                displayElem.innerText = `Dear ${inputVal},`;
-            } else {
-                displayElem.innerText = "Dear [Invitee Name],";
-            }
-            closeModal();
-        }
-
         // Load Uploaded Photo
         function loadNewPhoto(event) {
             const file = event.target.files[0];
@@ -484,11 +349,6 @@
         // Download High Resolution PNG using html2canvas
         async function downloadInvitation() {
             const captureArea = document.getElementById('captureArea');
-            
-            // Extract safe filename dynamically from guest name
-            const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
-            const safeFileName = (rawName && rawName !== '[Invitee Name]') ? rawName.replace(/[^a-z0-9]/gi, '_') : 'Mockup';
-
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
             btn.innerHTML = '⏳ Generating...';
@@ -497,12 +357,11 @@
             try {
                 const canvas = await html2canvas(captureArea, {
                     scale: 2, 
-                    useCORS: true,
-                    backgroundColor: '#DCD2C3'
+                    useCORS: true
                 });
 
                 const link = document.createElement('a');
-                link.download = `Wedding_Invitation_${safeFileName}.png`;
+                link.download = 'Wedding_Invitation_Mockup.png';
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
             } catch (err) {
