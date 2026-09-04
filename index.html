@@ -1,9 +1,10 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wedding Invitation Card Generator</title>
+    <!-- html2canvas for downloading card as PNG -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -109,20 +110,22 @@ html_content = """<!DOCTYPE html>
             background-color: var(--card-bg);
             border-top-left-radius: 220px;
             border-top-right-radius: 220px;
-            padding: 30px 35px 40px 35px;
+            padding: 25px 35px 40px 35px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
-        /* SVG Arch Text */
+        /* SVG Arch Text - Adjusted inside card */
         .arch-text-container {
             width: 100%;
-            height: 80px;
-            margin-top: 5px;
+            height: 90px;
+            margin-top: 15px;
+            margin-bottom: -15px;
         }
 
         .arch-text-svg {
@@ -138,8 +141,8 @@ html_content = """<!DOCTYPE html>
             border-radius: 50%;
             border: 3px solid var(--accent-gold);
             overflow: hidden;
-            margin-top: -10px;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-bottom: 18px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             position: relative;
             background-color: #f0e6d8;
@@ -151,7 +154,6 @@ html_content = """<!DOCTYPE html>
             object-fit: cover;
         }
 
-        /* Cordially Invited Heading */
         .invitation-heading {
             font-size: 1.45rem;
             color: var(--text-color);
@@ -160,7 +162,6 @@ html_content = """<!DOCTYPE html>
             letter-spacing: 0.5px;
         }
 
-        /* Divider Line */
         .divider-line {
             width: 80%;
             height: 1px;
@@ -168,7 +169,6 @@ html_content = """<!DOCTYPE html>
             margin: 8px 0 16px 0;
         }
 
-        /* Guest Name Display */
         .guest-greeting {
             font-size: 1.25rem;
             font-style: italic;
@@ -177,7 +177,6 @@ html_content = """<!DOCTYPE html>
             font-weight: 600;
         }
 
-        /* Main Invitation Text */
         .invitation-text {
             font-size: 0.95rem;
             line-height: 1.45;
@@ -185,7 +184,6 @@ html_content = """<!DOCTYPE html>
             margin-bottom: 18px;
         }
 
-        /* Section Headings */
         .section-title {
             font-size: 0.85rem;
             letter-spacing: 1.5px;
@@ -195,7 +193,6 @@ html_content = """<!DOCTYPE html>
             margin-bottom: 8px;
         }
 
-        /* Details List */
         .details-list {
             list-style: none;
             font-size: 0.88rem;
@@ -208,7 +205,6 @@ html_content = """<!DOCTYPE html>
             margin-bottom: 3px;
         }
 
-        /* Dress Code Section */
         .dress-code-box {
             margin-bottom: 18px;
         }
@@ -232,7 +228,6 @@ html_content = """<!DOCTYPE html>
             max-width: 340px;
         }
 
-        /* RSVP Section */
         .rsvp-box {
             font-size: 0.78rem;
             color: #6B5E5D;
@@ -242,7 +237,6 @@ html_content = """<!DOCTYPE html>
             width: 100%;
         }
 
-        /* MODAL DIALOG STYLES */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -284,7 +278,6 @@ html_content = """<!DOCTYPE html>
             font-weight: bold;
             color: var(--text-color);
             margin-bottom: 15px;
-
         }
 
         .form-group {
@@ -322,7 +315,6 @@ html_content = """<!DOCTYPE html>
             margin-top: 20px;
         }
 
-        /* Hidden File Input */
         #photoFileInput {
             display: none;
         }
@@ -333,15 +325,9 @@ html_content = """<!DOCTYPE html>
     <div class="header-bar">
         <div class="header-title">Wedding Invitation Generator</div>
         <div class="btn-group">
-            <button class="btn btn-outline" onclick="openModal()">
-                ✏️ Edit Invitee Name
-            </button>
-            <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">
-                📷 Change Photo
-            </button>
-            <button class="btn" onclick="downloadInvitation()">
-                📥 Download PNG
-            </button>
+            <button class="btn btn-outline" onclick="openModal()">✏️ Edit Invitee Name</button>
+            <button class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()">📷 Change Photo</button>
+            <button class="btn" onclick="downloadInvitation()">📥 Download PNG</button>
         </div>
     </div>
 
@@ -350,10 +336,11 @@ html_content = """<!DOCTYPE html>
     <div class="card-wrapper">
         <div class="invitation-card" id="invitationCard">
             
+            <!-- Curved Top Text inside the white arch -->
             <div class="arch-text-container">
-                <svg viewBox="0 0 400 90" class="arch-text-svg">
-                    <path id="curvePath" d="M 30 80 A 170 170 0 0 1 370 80" fill="transparent" />
-                    <text fill="#B89355" font-family="Georgia, serif" font-size="15" font-weight="600" letter-spacing="1.2">
+                <svg viewBox="0 0 370 85" class="arch-text-svg">
+                    <path id="curvePath" d="M 35 75 A 155 155 0 0 1 335 75" fill="transparent" />
+                    <text fill="#B89355" font-family="Georgia, serif" font-size="13.5" font-weight="600" letter-spacing="1">
                         <textPath href="#curvePath" startOffset="50%" text-anchor="middle">
                             Love, Truth &amp; Honour We Will Carry Forever
                         </textPath>
@@ -365,7 +352,7 @@ html_content = """<!DOCTYPE html>
                 <img id="couplePhoto" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" alt="Couple Photo">
             </div>
 
-            <div class="guest-greeting" id="cardGuestName">Dear [Invitee Name],</div>
+            <div class="guest-greeting" id="cardGuestName">Dear saman,</div>
 
             <h2 class="invitation-heading">You are Cordially Invited</h2>
 
@@ -419,7 +406,6 @@ html_content = """<!DOCTYPE html>
     </div>
 
     <script>
-        // Open Modal
         function openModal() {
             document.getElementById('nameModal').classList.add('active');
             const currentName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '');
@@ -429,12 +415,10 @@ html_content = """<!DOCTYPE html>
             document.getElementById('guestNameInput').focus();
         }
 
-        // Close Modal
         function closeModal() {
             document.getElementById('nameModal').classList.remove('active');
         }
 
-        // Save Guest Name to Card
         function saveGuestName() {
             const inputVal = document.getElementById('guestNameInput').value.trim();
             const displayElem = document.getElementById('cardGuestName');
@@ -447,7 +431,6 @@ html_content = """<!DOCTYPE html>
             closeModal();
         }
 
-        // Load Uploaded Photo
         function loadNewPhoto(event) {
             const file = event.target.files[0];
             if (file) {
@@ -459,13 +442,11 @@ html_content = """<!DOCTYPE html>
             }
         }
 
-        // Download High Resolution PNG using html2canvas
         async function downloadInvitation() {
             const card = document.getElementById('invitationCard');
             const rawName = document.getElementById('cardGuestName').innerText.replace(/^Dear\s+/, '').replace(/,$/, '').trim();
             const safeFileName = rawName ? rawName.replace(/[^a-z0-9]/gi, '_') : 'Guest';
 
-            // Show temporary loading status
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
             btn.innerHTML = '⏳ Generating...';
@@ -473,7 +454,7 @@ html_content = """<!DOCTYPE html>
 
             try {
                 const canvas = await html2canvas(card, {
-                    scale: 3, // High-DPI resolution
+                    scale: 3,
                     useCORS: true,
                     backgroundColor: '#EFE8DE'
                 });
@@ -489,17 +470,6 @@ html_content = """<!DOCTYPE html>
                 btn.disabled = false;
             }
         }
-
-        // Automatically open modal on initial launch for convenience
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(openModal, 600);
-        });
     </script>
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print("Successfully generated index.html")
