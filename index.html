@@ -114,14 +114,14 @@
             max-width: 600px;
             height: 800px;
             background-image: url("https://raw.githubusercontent.com/Sandeep-Anu/WeddingInvite/main/warm-natural-wooden-surface-with-soft-lighting-and-a-blurred-wall-creating-a-cozy-and-organic-setting-for-product-presentation-photo.jpg");
-            background-size: cover;
-            background-position: center bottom;
+            background-size: 140%; /* Zoomed in to bring table forward and hide blurry top */
+            background-position: center bottom; /* Anchored to bottom for sharp table texture */
             border-radius: 16px;
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
             display: flex;
             justify-content: center;
-            align-items: center; /* Centered vertically to place on the middle of the table */
-            padding-top: 60px; /* Slight adjustment for perspective */
+            align-items: flex-start; /* Changed to push card higher up/backward */
+            padding-top: 160px; /* Pushes the card back onto the table */
             padding-bottom: 0;
             margin-bottom: 30px;
             position: relative;
@@ -130,7 +130,7 @@
             background-blend-mode: multiply;
         }
 
-        /* Standing Invitation Card Mockup (Scaled Down) */
+        /* Standing Invitation Card Mockup with enhanced 3D Perspective */
         .invitation-card {
             width: 250px;
             min-height: 410px;
@@ -140,10 +140,10 @@
             border-top-right-radius: 125px;
             padding: 16px 18px 18px 18px;
             box-shadow: 
-                0 35px 50px -15px rgba(0, 0, 0, 0.45),
-                0 10px 15px -5px rgba(0, 0, 0, 0.2),
-                inset 0 -5px 10px rgba(0, 0, 0, 0.03);
-            transform: perspective(1000px) rotateX(2deg);
+                0 45px 35px -20px rgba(0, 0, 0, 0.55), /* Deeper ground shadow */
+                0 15px 15px -5px rgba(0, 0, 0, 0.3),   /* Close edge base shadow */
+                inset 0 -5px 15px rgba(0, 0, 0, 0.05);
+            transform: perspective(600px) rotateX(12deg); /* Stronger 3D lean */
             transform-origin: bottom center;
             display: flex;
             flex-direction: column;
